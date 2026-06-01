@@ -17,7 +17,6 @@ die(pg_last_error($conn));
 }
 ?>
 <div class="flex">
-<?php include("../includes/sidebar.php"); ?>
 <div class="flex-1 p-6">
     
     <!-- HEADER BAR WITH PASTEL BLUE ACCENTS -->

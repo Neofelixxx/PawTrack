@@ -22,7 +22,6 @@
                 ☰
             </button>
             <a href="/PawTrack/index.php" class="flex items-center gap-3 group">
-                <!-- FIXED: Renders the beautiful Cat Logo.png inside the navbar -->
                 <img src="/PawTrack/assets/images/Cat Logo.png" 
                      alt="PawTrack Logo" 
                      class="w-9 h-9 object-cover rounded-full border border-sky-200 shadow-sm group-hover:scale-105 transition duration-300">
@@ -61,19 +60,19 @@
     </div>
 </nav>
 
+<!-- CRITICAL FIX: AUTOMATICALLY INCLUDE THE SIDEBAR MARKUP LOGIC GLOBALLY HERE -->
+<?php include(__DIR__ . "/sidebar.php"); ?>
+
 <!-- CONTENT WRAPPER -->
 <div class="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
 
 <script>
 function toggleSidebar() {
-    // Looks for the backdrop overlay and the main sidebar container
     const sidebar = document.getElementById("sidebar");
     const backdrop = document.getElementById("backdrop");
     
     if (sidebar && backdrop) {
-        // Toggles the visibility of the sidebar slide animation
         sidebar.classList.toggle("-translate-x-full");
-        // Toggles the blurred backdrop mask visibility
         backdrop.classList.toggle("hidden");
     } else {
         console.error("Sidebar elements could not be initialized natively in DOM.");
