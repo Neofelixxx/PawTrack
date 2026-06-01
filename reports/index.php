@@ -2,53 +2,52 @@
 include("../config/db.php");
 include("../includes/header.php");
 
-/* 1. FETCH SUMMARY COUNTS */
-$cats = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Cat"));
-$shelters = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Shelter"));
-$adoptions = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Adoption"));
-$cages = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Cage"));
+/* 1. FETCH ALL SHELTERS FOR THE FILTER DROPDOWN */
+$shelter_list = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name");
 
-/* 2. FETCH DATA FOR CHART 1: CATS BY STATUS */
-$status_query = pg_query($conn, "SELECT status, COUNT(*) as count FROM Cat GROUP BY status");
-$status_labels = [];
-$status_counts = [];
-while ($row = pg_fetch_assoc($status_query)) {
-    $status_labels[] = $row['status'];
-    $status_counts[] = (int)$row['count'];
+/* 2. FETCH RAW BREAKDOWNS OF ALL CAT STATUSES + SHELTER ID */
+$cat_raw = pg_query($conn, "SELECT shelterid, status, COUNT(*) as count FROM Cat GROUP BY shelterid, status");
+$cat_data = [];
+while ($row = pg_fetch_assoc($cat_raw)) {
+    $cat_data[] = [
+        'shelterid' => (int)$row['shelterid'],
+        'status' => $row['status'],
+        'count' => (int)$row['count']
+    ];
 }
 
-/* 3. FETCH DATA FOR CHART 2: MEDICAL COSTS BY CATEGORY */
-$cost_query = pg_query($conn, "SELECT COALESCE(category, 'Uncategorized') as category, SUM(cost) as total_cost FROM Medical_Record GROUP BY category");
-$cost_labels = [];
-$cost_amounts = [];
-while ($row = pg_fetch_assoc($cost_query)) {
-    $cost_labels[] = $row['category'];
-    $cost_amounts[] = (float)$row['total_cost'];
+/* 3. FETCH RAW BREAKDOWNS OF ALL MEDICAL COSTS + SHELTER ID */
+$cost_raw = pg_query($conn, "
+    SELECT c.shelterid, COALESCE(m.category, 'Uncategorized') as category, SUM(m.cost) as total_cost 
+    FROM Medical_Record m
+    JOIN Cat c ON m.catid = c.catid
+    GROUP BY c.shelterid, m.category
+");
+$cost_data = [];
+while ($row = pg_fetch_assoc($cost_raw)) {
+    $cost_data[] = [
+        'shelterid' => (int)$row['shelterid'],
+        'category' => $row['category'],
+        'total' => (float)$row['total_cost']
+    ];
 }
 ?>
 
 <div class="max-w-7xl mx-auto px-4 mt-2">
-    <div class="mb-8 border-b border-sky-100 pb-4">
-        <h2 class="text-3xl font-bold text-slate-800 tracking-tight">📊 Decision Support Analytics Hub</h2>
-        <p class="text-slate-500 text-sm mt-1">Live management overview pulling directly from your localized PostgreSQL database core.</p>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <div class="bg-white p-6 rounded-2xl border border-sky-100/70 shadow-sm">
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Registered Felines</p>
-            <h3 class="text-3xl font-extrabold text-slate-800 mt-2"><?php echo $cats['total']; ?></h3>
+    <div class="mb-8 border-b border-sky-100 pb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h2 class="text-3xl font-bold text-slate-800 tracking-tight">📊 Decision Support Analytics Hub</h2>
+            <p class="text-slate-500 text-sm mt-1">Live management overview filtering localized database metrics natively.</p>
         </div>
-        <div class="bg-white p-6 rounded-2xl border border-sky-100/70 shadow-sm">
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Shelter Hubs</p>
-            <h3 class="text-3xl font-extrabold text-slate-800 mt-2"><?php echo $shelters['total']; ?></h3>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-sky-100/70 shadow-sm">
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Adoption Claims</p>
-            <h3 class="text-3xl font-extrabold text-slate-800 mt-2"><?php echo $adoptions['total']; ?></h3>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-sky-100/70 shadow-sm">
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Managed Facility Cages</p>
-            <h3 class="text-3xl font-extrabold text-slate-800 mt-2"><?php echo $cages['total']; ?></h3>
+        
+        <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl border border-sky-100/80 shadow-sm max-w-xs w-full">
+            <span class="text-lg">🏢</span>
+            <select id="shelterFilter" onchange="updateDashboardFilters()" class="w-full bg-transparent font-semibold text-slate-700 text-sm focus:outline-none">
+                <option value="all">All Shelter Hubs Combined</option>
+                <?php while ($s = pg_fetch_assoc($shelter_list)) { ?>
+                    <option value="<?php echo $s['shelterid']; ?>"><?php echo $s['name']; ?></option>
+                <?php } ?>
+            </select>
         </div>
     </div>
 
@@ -78,63 +77,83 @@ while ($row = pg_fetch_assoc($cost_query)) {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-// 📊 CHART 1 INITIALIZATION: CAT STATUS BREAKDOWN
-const ctxStatus = document.getElementById('statusChart').getContext('2d');
-new Chart(ctxStatus, {
-    type: 'bar',
-    data: {
-        labels: <?php echo json_encode($status_labels); ?>,
-        datasets: [{
-            label: 'Number of Cats',
-            data: <?php echo json_encode($status_counts); ?>,
-            backgroundColor: 'rgba(56, 189, 248, 0.6)', // Tailwind sky-400 with opacity
-            borderColor: 'rgb(14, 165, 233)',          // Tailwind sky-500
-            borderWidth: 2,
-            borderRadius: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-            y: { beginAtZero: true, ticks: { stepSize: 1, color: '#94a3b8' }, grid: { color: '#f1f5f9' } },
-            x: { ticks: { color: '#64748b' }, grid: { display: false } }
-        }
-    }
-});
+// Raw database rows compiled into clean JavaScript Arrays
+const rawCatData = <?php echo json_encode($cat_data); ?>;
+const rawCostData = <?php echo json_encode($cost_data); ?>;
 
-// 🍩 CHART 2 INITIALIZATION: COST SUMMARY DISTRIBUTION
-const ctxCost = document.getElementById('costChart').getContext('2d');
-new Chart(ctxCost, {
-    type: 'doughnut',
-    data: {
-        labels: <?php echo json_encode($cost_labels); ?>,
-        datasets: [{
-            data: <?php echo json_encode($cost_amounts); ?>,
-            backgroundColor: [
-                'rgba(244, 63, 94, 0.6)',  // Rose
-                'rgba(245, 158, 11, 0.6)', // Amber
-                'rgba(16, 185, 129, 0.6)', // Emerald
-                'rgba(99, 102, 241, 0.6)'  // Indigo
-            ],
-            borderColor: [
-                'rgb(225, 29, 72)',
-                'rgb(217, 119, 6)',
-                'rgb(5, 150, 105)',
-                'rgb(79, 70, 229)'
-            ],
-            borderWidth: 2
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 }, color: '#475569' } }
+let statusChart, costChart;
+
+function buildCharts(filteredStatuses, filteredCosts) {
+    // 📊 CHART 1: CAT STATUSES
+    const ctxStatus = document.getElementById('statusChart').getContext('2d');
+    if (statusChart) statusChart.destroy(); // Wipe out old chart instance safely
+    statusChart = new Chart(ctxStatus, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(filteredStatuses),
+            datasets: [{
+                data: Object.values(filteredStatuses),
+                backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                borderColor: 'rgb(14, 165, 233)',
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
         }
-    }
-});
+    });
+
+    // 🍩 CHART 2: MEDICAL COSTS
+    const ctxCost = document.getElementById('costChart').getContext('2d');
+    if (costChart) costChart.destroy(); // Wipe out old chart instance safely
+    costChart = new Chart(ctxCost, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(filteredCosts),
+            datasets: [{
+                data: Object.values(filteredCosts),
+                backgroundColor: ['rgba(244, 63, 94, 0.6)', 'rgba(245, 158, 11, 0.6)', 'rgba(16, 185, 129, 0.6)', 'rgba(99, 102, 241, 0.6)'],
+                borderColor: ['rgb(225, 29, 72)', 'rgb(217, 119, 6)', 'rgb(5, 150, 105)', 'rgb(79, 70, 229)'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'right' } }
+        }
+    });
+}
+
+function updateDashboardFilters() {
+    const selectedShelter = document.getElementById('shelterFilter').value;
+    
+    // Process and aggregate status numbers dynamically
+    let statuses = {};
+    rawCatData.forEach(item => {
+        if (selectedShelter === 'all' || item.shelterid === parseInt(selectedShelter)) {
+            statuses[item.status] = (statuses[item.status] || 0) + item.count;
+        }
+    });
+
+    // Process and aggregate financial variables dynamically
+    let costs = {};
+    rawCostData.forEach(item => {
+        if (selectedShelter === 'all' || item.shelterid === parseInt(selectedShelter)) {
+            costs[item.category] = (costs[item.category] || 0) + item.total;
+        }
+    });
+
+    // Redraw the canvas panels with refreshed metrics animation
+    buildCharts(statuses, costs);
+}
+
+// Initial initialization on window paint load
+updateDashboardFilters();
 </script>
 
 <?php include("../includes/footer.php"); ?>
