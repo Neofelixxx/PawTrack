@@ -53,7 +53,7 @@ $cages = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Cage"));
     
     <!-- LINK TO YOUR REPOSITORY BI FILE -->
     <a href="/PawTrack/reports/Reports.pbix" 
-       download
+       download="Reports.pbix"
        class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-md hover:shadow-lg transition duration-200">
         <span>🚀</span> Open Power BI Analytics Workspace
     </a>
