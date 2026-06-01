@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- RIGHT PANEL: INTERACTIVE MAP CANVAS -->
         <div class="w-full lg:w-7/12 relative min-h-[450px] lg:min-h-auto flex flex-col">
             <div class="absolute inset-0 bg-white rounded-3xl border border-sky-100/60 shadow-sm overflow-hidden p-2 flex flex-col h-full">
-                <div id="map" class="w-full h-full rounded-2xl z-10"></div>
+                <div id="map" style="height: 460px;" class="rounded-2xl border border-sky-100 shadow-inner z-10"></div>
             </div>
         </div>
 

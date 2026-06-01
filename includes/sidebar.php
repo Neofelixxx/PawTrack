@@ -6,10 +6,10 @@ $role = $_SESSION['role'] ?? null;
 ?>
 
 <!-- MOBILE BACKDROP OVERLAY -->
-<div id="backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-40 transition-all duration-300" onclick="toggleSidebar()"></div>
+<div id="backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-[90] transition-all duration-300" onclick="toggleSidebar()"></div>
 
 <!-- STYLISH SIDEBAR PANEL -->
-<div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white border-r border-sky-100/80 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col justify-between">
+<div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white border-r border-sky-100/80 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out z-[100] flex flex-col justify-between">
     
     <div>
         <!-- HEADER SPECIFICATION -->
