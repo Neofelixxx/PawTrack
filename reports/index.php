@@ -6,7 +6,7 @@ include("../includes/header.php");
 $cats = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Cat"));
 $shelters = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Shelter"));
 $adoptions = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Adoption"));
-$donations = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Donations"));
+$donations = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM \"Donations\""));
 ?>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
