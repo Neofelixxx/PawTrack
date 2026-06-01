@@ -18,7 +18,7 @@ $user_role = $_SESSION['role'] ?? 'Public';
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body style="background-color: #8FD9FB;" class="text-slate-800 min-h-screen flex flex-col">
 
 <!-- PASTEL BLUE STICKY NAVIGATION BAR -->
 <nav class="sticky top-0 bg-white/90 backdrop-blur-md border-b border-sky-100/60 z-40 transition-all">
