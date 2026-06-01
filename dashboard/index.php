@@ -198,21 +198,64 @@ if ($shelter_id) {
             </a>
         </div>
 
-    <!-- ==================== 5. PUBLIC GUEST PORTAL WORKSPACE ==================== -->
+    <!-- ==================== 5. FIXED RESTRUCTURED PUBLIC GUEST PORTAL HERO ==================== -->
     <?php } else { ?>
-        <div class="bg-white border border-sky-100/80 rounded-3xl p-8 text-center max-w-3xl mx-auto shadow-sm">
-            <div class="w-16 h-16 bg-sky-50 text-sky-500 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">🌐</div>
-            <h3 class="text-xl font-bold text-slate-800">Public Access Portal</h3>
-            <p class="text-slate-500 text-sm mt-2 mb-6 max-w-xl mx-auto leading-relaxed">
-                Welcome to PawTrack. Register an official account to unlock adoption applications, track personal match pipelines, or securely sponsor long-term medical treatments across our rescue network.
-            </p>
-            <div class="flex justify-center gap-4">
-                <a href="../cats/list.php" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition shadow-sm">
-                    Browse Rescues
-                </a>
-                <a href="../auth/login.php" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition shadow-sm">
-                    Authenticate Session
-                </a>
+        <div class="bg-white border border-sky-100/80 rounded-3xl overflow-hidden shadow-sm grid grid-cols-1 md:grid-cols-12 items-center">
+            
+            <!-- LEFT AREA: ENTERPRISE COPY AND CORE EXPLANATION -->
+            <div class="p-8 md:p-12 md:col-span-7 space-y-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-sky-600 tracking-widest uppercase bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
+                        Unified Public Sector Portal
+                    </span>
+                    <h3 class="text-3xl font-black text-slate-800 tracking-tight leading-tight">
+                        Streamlining Regional Stray Feline Logistics & Care
+                    </h3>
+                </div>
+                
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    PawTrack operates as an advanced multi-tenant operational management console across the Johor Bahru region. By blending real-time medical auditing, localized cage capacities, and relational matching parameters, we replace fragmented workflows with a secure data matrix built for modern animal welfare organizations.
+                </p>
+
+                <!-- EXPLANATORY CHECKLIST GRID -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sky-500">✔</span> Spatial Population Hotspots
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sky-500">✔</span> Direct DuitNow Wire Channels
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sky-500">✔</span> Multi-Hub Inventory Oversight
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sky-500">✔</span> Real-Time Adoption Pipelines
+                    </div>
+                </div>
+
+                <div class="pt-2 flex flex-wrap gap-4">
+                    <a href="../cats/list.php" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-sm hover:shadow-md">
+                        Browse Active Felines
+                    </a>
+                    <a href="../auth/login.php" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-sm hover:shadow-md">
+                        Authenticate Session
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT AREA: HIGH-QUALITY KITTEN IMAGE PLACEMENT -->
+            <div class="md:col-span-5 h-64 md:h-full min-h-[380px] bg-sky-50 relative overflow-hidden flex items-center justify-center">
+                <!-- Grid background accent pattern beneath the layout -->
+                <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                <!-- Your Homepage Kitty Image Asset -->
+                <img src="/PawTrack/assets/images/Homepage Kitty.jpg" 
+                     alt="PawTrack Welcome Feline" 
+                     class="w-full h-full object-cover relative z-10 mix-blend-multiply transition duration-500 hover:scale-105"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                     
+                <!-- Fallback card element if local image is unlinked or naming fails -->
+                <div class="hidden absolute inset-0 flex-col items-center justify-center text-6xl text-sky-300">🐈</div>
             </div>
         </div>
     <?php } ?>
