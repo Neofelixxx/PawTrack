@@ -41,12 +41,22 @@ $cages = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM Cage"));
         </div>
     </div>
 
-    <!-- POWER BI REDIRECT BENCHMARK NOTE -->
-    <div class="mt-8 p-6 bg-sky-50/50 border border-sky-100 rounded-2xl text-center">
-        <p class="text-sm text-slate-600 font-medium">
-            💡 Detailed cost distributions and interactive data metrics are managed via your <strong>Power BI Executive Dashboard</strong> workbook.
-        </p>
+<!-- POWER BI EXECUTIVE LAUNCHER FRAME -->
+<div class="mt-8 p-8 bg-white border border-sky-100 rounded-3xl shadow-sm text-center max-w-2xl mx-auto">
+    <div class="w-16 h-16 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-between justify-center text-2xl mx-auto mb-4 font-bold shadow-sm">
+        📊
     </div>
+    <h4 class="text-xl font-bold text-slate-800">Advanced Decision Support Dashboard</h4>
+    <p class="text-slate-500 text-sm mt-1 mb-6 leading-relaxed">
+        Launch the real-time Power BI engine to manipulate financial metrics, cost distributions, and cross-filter resource allocation data across the shelter network.
+    </p>
+    
+    <!-- LINK TO YOUR REPOSITORY BI FILE -->
+    <a href="/PawTrack/reports/Reports.pbix" 
+       download
+       class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-md hover:shadow-lg transition duration-200">
+        <span>🚀</span> Open Power BI Analytics Workspace
+    </a>
 </div>
 
 <?php include("../includes/footer.php"); ?>
