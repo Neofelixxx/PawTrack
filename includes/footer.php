@@ -8,7 +8,7 @@
         </div>
         <div class="flex flex-wrap justify-center gap-6">
             <a href="/PawTrack/cats/list.php" class="hover:text-orange-500 transition">Adopt</a>
-            <a href="/PawTrack/donation/add.php" class="hover:text-orange-500 transition">Sponsor</a>
+            <a href="/PawTrack/donations/add.php" class="hover:text-orange-500 transition">Sponsor</a>
             <a href="#" class="hover:text-orange-500 transition">Volunteer</a>
             <a href="#" class="hover:text-orange-500 transition">Privacy Policy</a>
         </div>

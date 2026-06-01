@@ -37,7 +37,7 @@
             <a href="/PawTrack/cats/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Browse Cats</a>
             <a href="/PawTrack/shelters/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Shelters</a>
             <a href="/PawTrack/intake/map.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">GIS Hotspots</a>
-            <a href="/PawTrack/donation/add.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donate</a>
+            <a href="/PawTrack/donations/add.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donate</a>
         </div>
 
         <!-- RIGHT SIDE: USER STATUS ACTIONS -->
@@ -66,12 +66,17 @@
 
 <script>
 function toggleSidebar() {
-
+    // Looks for the backdrop overlay and the main sidebar container
     const sidebar = document.getElementById("sidebar");
     const backdrop = document.getElementById("backdrop");
-
-    sidebar.classList.toggle("-translate-x-full");
-    backdrop.classList.toggle("hidden");
-
+    
+    if (sidebar && backdrop) {
+        // Toggles the visibility of the sidebar slide animation
+        sidebar.classList.toggle("-translate-x-full");
+        // Toggles the blurred backdrop mask visibility
+        backdrop.classList.toggle("hidden");
+    } else {
+        console.error("Sidebar elements could not be initialized natively in DOM.");
+    }
 }
 </script>

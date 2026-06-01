@@ -54,7 +54,7 @@ $role = $_SESSION['role'] ?? null;
                 <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 pt-2 pb-1">My Account</p>
                 <a href="/PawTrack/cats/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🐈 Search Profiles</a>
                 <a href="/PawTrack/adoption/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">📋 My Applications</a>
-                <a href="/PawTrack/donation/add.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">💝 Send Donation</a>
+                <a href="/PawTrack/donations/add.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">💝 Send Donation</a>
 
             <!-- ANONYMOUS GUEST VISITOR -->
             <?php } else { ?>

@@ -24,7 +24,7 @@ $name = $_SESSION['name'] ?? null;
         <a href="/PawTrack/index.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Home</a>
         <a href="/PawTrack/cats/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Browse Cats</a>
         <a href="/PawTrack/shelters/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Shelters</a>
-        <a href="/PawTrack/donation/add.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donate</a>
+        <a href="/PawTrack/donations/add.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donate</a>
     </div>
 
     <!-- RIGHT SIDE: ACCOUNT PROFILE CONTROLS -->
