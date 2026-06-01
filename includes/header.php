@@ -1,11 +1,19 @@
-<?php session_start(); ?>
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); 
+}
+
+// Map variables cleanly matching your system baseline
+$is_logged_in = isset($_SESSION['user_id']);
+$user_role = $_SESSION['role'] ?? 'Public';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>PawTrack — Stray Cat Shelter Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
@@ -31,21 +39,28 @@
             </a>
         </div>
 
-        <!-- CENTER NAVIGATION LINKS -->
+        <!-- CENTER NAVIGATION LINKS (Role-Adaptive & Clean) -->
         <div class="hidden md:flex items-center gap-1 font-medium text-slate-600">
             <a href="/PawTrack/cats/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Browse Cats</a>
-            <a href="/PawTrack/shelters/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Shelters</a>
-            <a href="/PawTrack/intake/map.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">GIS Hotspots</a>
-            <a href="/PawTrack/donations/add.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donate</a>
+            <a href="/PawTrack/donations/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donations</a>
+            
+            <!-- Hide high-level internal modules from Public guests -->
+            <?php if ($user_role === 'Admin' || $user_role === 'Manager' || $user_role === 'Staff') { ?>
+                <a href="/PawTrack/reports/index.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Analytics</a>
+                <a href="/PawTrack/intake/map.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">GIS Hotspots</a>
+            <?php } ?>
         </div>
 
-        <!-- RIGHT SIDE: USER STATUS ACTIONS -->
+        <!-- RIGHT SIDE: FIXED AUTHENTICATION ACTIONS -->
         <div class="flex items-center gap-4">
-            <?php if (isset($_SESSION['user'])) { ?>
+            <?php if ($is_logged_in) { ?>
+                <span class="text-xs font-mono font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded-md uppercase">
+                    <?php echo htmlspecialchars($user_role); ?>
+                </span>
                 <a href="/PawTrack/dashboard/index.php" class="text-sm font-semibold text-slate-600 hover:text-sky-600 transition">
                     Dashboard
                 </a>
-                <a href="/PawTrack/auth/logout.php" class="bg-slate-800 hover:bg-sky-600 text-white font-semibold px-5 py-2.5 rounded-xl shadow-sm transition-all duration-200 text-sm">
+                <a href="/PawTrack/auth/logout.php" class="bg-slate-800 hover:bg-rose-600 text-white font-semibold px-5 py-2.5 rounded-xl shadow-sm transition-all duration-200 text-sm">
                     Logout
                 </a>
             <?php } else { ?>
@@ -60,10 +75,10 @@
     </div>
 </nav>
 
-<!-- CRITICAL FIX: AUTOMATICALLY INCLUDE THE SIDEBAR MARKUP LOGIC GLOBALLY HERE -->
+<!-- AUTOMATICALLY INCLUDE SIDEBAR WORKSPACE -->
 <?php include(__DIR__ . "/sidebar.php"); ?>
 
-<!-- CONTENT WRAPPER -->
+<!-- CONTENT WRAPPER CONTAINER -->
 <div class="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
 
 <script>
