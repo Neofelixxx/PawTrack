@@ -74,129 +74,60 @@ $vaccines = pg_query(
     class="bg-white p-6 rounded-2xl shadow-lg"
 >
 
-    <!-- CAT -->
-    <div class="mb-4">
-
-        <label class="block font-semibold mb-1">
-            Cat
-        </label>
-
-        <select
-            name="catid"
-            required
-            class="w-full border rounded-lg p-2"
-        >
-
-            <?php while ($cat = pg_fetch_assoc($cats)) { ?>
-
-                <option value="<?php echo $cat['catid']; ?>">
-
-                    <?php echo $cat['name']; ?>
-
-                </option>
-
-            <?php } ?>
-
-        </select>
-
+<div class="max-w-2xl mx-auto px-4">
+    
+    <!-- CONSOLE HEADER BAR -->
+    <div class="mb-8 border-b border-sky-100 pb-4 text-center sm:text-left">
+        <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Log Immunization Record</h2>
+        <p class="text-slate-500 text-sm mt-1">Register feline immunization metrics directly into relational data matrices[cite: 1, 2].</p>
     </div>
 
-    <!-- VACCINE -->
-    <div class="mb-4">
+    <!-- DATA ENTRY CARD CONTAINER -->
+    <form method="POST" class="bg-white p-6 sm:p-8 rounded-3xl border border-sky-100/60 shadow-xl space-y-5">
+        
+        <!-- SELECTION DUAL ROW -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Feline Patient</label>
+                <select name="catid" required class="w-full border border-sky-100 bg-slate-50/50 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
+                    <?php while ($cat = pg_fetch_assoc($cats)) { ?>
+                        <option value="<?php echo $cat['catid']; ?>">🐱 <?php echo $cat['name']; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Vaccine Variant</label>
+                <select name="vaccineid" required class="w-full border border-sky-100 bg-slate-50/50 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
+                    <?php while ($v = pg_fetch_assoc($vaccines)) { ?>
+                        <option value="<?php echo $v['vaccineid']; ?>">🛡️ <?php echo $v['vaccinename']; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
 
-        <label class="block font-semibold mb-1">
-            Vaccine
-        </label>
+        <!-- DATE & MATERIAL COST ROW -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Administration Date</label>
+                <input type="date" name="date" required class="w-full border border-sky-100 bg-slate-50/50 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Batch Cost (RM)</label>
+                <input type="number" step="0.01" name="cost" placeholder="0.00" required
+                       class="w-full border border-sky-100 bg-slate-50/50 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition font-mono">
+            </div>
+        </div>
 
-        <select
-            name="vaccineid"
-            required
-            class="w-full border rounded-lg p-2"
-        >
-
-            <?php while ($v = pg_fetch_assoc($vaccines)) { ?>
-
-                <option value="<?php echo $v['vaccineid']; ?>">
-
-                    <?php echo $v['vaccinename']; ?>
-
-                </option>
-
-            <?php } ?>
-
-        </select>
-
-    </div>
-
-    <!-- DATE -->
-    <div class="mb-4">
-
-        <label class="block font-semibold mb-1">
-            Vaccination Date
-        </label>
-
-        <input
-            type="date"
-            name="date"
-            required
-            class="w-full border rounded-lg p-2"
-        >
-
-    </div>
-
-    <!-- COST -->
-    <div class="mb-6">
-
-        <label class="block font-semibold mb-1">
-            Cost (RM)
-        </label>
-
-        <input
-            type="number"
-            step="0.01"
-            name="cost"
-            class="w-full border rounded-lg p-2"
-        >
-
-    </div>
-
-    <!-- BUTTONS -->
-    <div class="flex gap-3">
-
-        <button
-            type="submit"
-            class="
-            bg-[#3679f7]
-            hover:bg-[#4ec5c1]
-            text-white
-            px-4
-            py-2
-            rounded-lg
-            transition
-            duration-300
-            "
-        >
-            Save Record
-        </button>
-
-        <a
-            href="/PawTrack/vaccination/list.php"
-            class="
-            bg-gray-400
-            hover:bg-gray-500
-            text-white
-            px-4
-            py-2
-            rounded-lg
-            transition
-            duration-300
-            "
-        >
-            Cancel
-        </a>
-
-    </div>
-
-</form>
+        <!-- SUBMIT ACTION CONTROLS -->
+        <div class="flex gap-3 pt-4 border-t border-slate-50">
+            <button type="submit" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-sm">
+                Save Immunization Log
+            </button>
+            <a href="/PawTrack/vaccination/list.php" class="border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold px-5 py-3 rounded-xl text-sm transition duration-200 text-center">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
 
 <?php include("../includes/footer.php"); ?>
