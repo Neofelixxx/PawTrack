@@ -39,12 +39,12 @@ $user_role = $_SESSION['role'] ?? 'Public';
             </a>
         </div>
 
-        <!-- CENTER NAVIGATION LINKS (Role-Adaptive & Clean) -->
+<!-- CENTER NAVIGATION LINKS (Role-Adaptive & Clean) -->
         <div class="hidden md:flex items-center gap-1 font-medium text-slate-600">
             <a href="/PawTrack/cats/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Browse Cats</a>
-            <a href="/PawTrack/donations/list.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donations</a>
+            <!-- UPDATED ROUTING TO POINT DIRECTLY TO THE CONSOLIDATED ADD PAGE -->
+            <a href="/PawTrack/donations/add.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Donations</a>
             
-            <!-- Hide high-level internal modules from Public guests -->
             <?php if ($user_role === 'Admin' || $user_role === 'Manager' || $user_role === 'Staff') { ?>
                 <a href="/PawTrack/reports/index.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">Analytics</a>
                 <a href="/PawTrack/intake/map.php" class="px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition duration-200">GIS Hotspots</a>
