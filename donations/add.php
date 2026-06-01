@@ -47,8 +47,8 @@ $top_query = "
 $top_result = pg_query($conn, $top_query);
 ?>
 
-<!-- OUTSIDE WRAPPER USING THE BLUE CAT BACKGROUND IMAGE -->
-<div class="w-full min-h-screen bg-cover bg-center bg-no-repeat -mt-8 py-8" style="background-image: url('/PawTrack/assets/images/Cat BG Blue.jpg');">
+<!-- FIXED ARCHITECTURAL CONTAINER (Image locked to viewport scale, independent of zoom) -->
+<div class="w-full min-h-[calc(100vh-80px)] bg-cover bg-center bg-no-repeat bg-fixed py-8" style="background-image: url('/PawTrack/assets/images/Cat BG Blue.jpg');">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- CONSOLIDATED CONSOLE CONTROL HEADER (Glassmorphic) -->
@@ -68,14 +68,13 @@ $top_result = pg_query($conn, $top_query);
             <!-- LEFT & CENTER DESK: FUNDING SPECIFICS & WISHLISTS -->
             <div class="lg:col-span-2 space-y-8">
                 
-                <!-- PANEL A: DUITNOW QR & ACCOUNT METRICS (Translucent White) -->
+                <!-- PANEL A: DUITNOW QR & ACCOUNT METRICS -->
                 <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm">
                     <div class="pb-3 border-b border-slate-200/60 mb-5">
                         <h3 class="text-md font-bold text-slate-800 tracking-tight">Direct Capital Funding Channels</h3>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                        <!-- Standardized Monochrome DuitNow QR Stub -->
                         <div class="bg-white border border-slate-100 p-5 rounded-xl flex flex-col items-center justify-center text-center shadow-sm">
                             <div class="w-32 h-32 bg-white border-2 border-sky-500 rounded-xl flex flex-col items-center justify-center p-2 relative">
                                 <div class="w-full h-full bg-[radial-gradient(#0284c7_3px,transparent_3px)] [background-size:8px_8px] opacity-75"></div>
@@ -84,7 +83,6 @@ $top_result = pg_query($conn, $top_query);
                             <p class="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Scan Hub Core</p>
                         </div>
 
-                        <!-- Pure Enterprise Data Row Listings -->
                         <div class="md:col-span-2 text-xs text-slate-600 space-y-2.5">
                             <div class="grid grid-cols-3 border-b border-slate-100 pb-1.5">
                                 <span class="font-bold text-slate-400 uppercase tracking-wider">Account Number</span>
@@ -99,7 +97,7 @@ $top_result = pg_query($conn, $top_query);
                                 <span class="col-span-2 font-medium text-slate-700">Public Bank Berhad</span>
                             </div>
                             <div class="grid grid-cols-3">
-                                <span class="font-bold text-slate-400 tracking-wider">Swift Routing</span>
+                                <span class="font-bold text-slate-400 uppercase tracking-wider">Swift Routing</span>
                                 <span class="col-span-2 font-mono text-slate-700">PBBEMYKL</span>
                             </div>
                             <p class="text-[11px] text-slate-400 leading-relaxed pt-2 border-t border-slate-100">
@@ -115,13 +113,11 @@ $top_result = pg_query($conn, $top_query);
                         <h3 class="text-md font-bold text-slate-800 tracking-tight">Standardized Material Wishlist Checklists</h3>
                     </div>
 
-                    <!-- DIETARY LOCALIZATION ADVISORY -->
                     <div class="bg-sky-50/80 border border-sky-100 text-sky-900 rounded-xl p-4 mb-5 text-xs leading-relaxed">
                         <span class="font-bold text-sky-700 block uppercase tracking-wide mb-1">🇲🇾 Regional Dietary Compliance Notice (Porcine-Free Requirement)</span>
                         To respect our majority Muslim stakeholder framework across local Malaysian communities, all dry kibbles, milk replacers, and wet pouches dropped off must be entirely free from porcine (pig) ingredients or cross-contamination derivatives. This ensures all animal feeding and cleaning workflows remain completely accessible to all local area volunteers and staff nodes.
                     </div>
 
-                    <!-- CLEAN CHECKLIST GRID -->
                     <div class="overflow-hidden border border-slate-100 rounded-xl text-xs bg-white">
                         <table class="w-full text-left border-collapse">
                             <thead>
@@ -155,8 +151,6 @@ $top_result = pg_query($conn, $top_query);
 
             <!-- RIGHT DESK: FORM CONSOLE & LEADERBOARD INTERACTION -->
             <div class="space-y-6">
-                
-                <!-- FORM COMPONENT: REGISTER INTENT PLEDGE -->
                 <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm">
                     <div class="mb-4">
                         <h4 class="font-bold text-slate-800 text-md tracking-tight">Log Donation Intent</h4>
@@ -208,7 +202,6 @@ $top_result = pg_query($conn, $top_query);
                     </form>
                 </div>
 
-                <!-- MONOCHROME BOARD: TOP BENEFACTORS LEDGER -->
                 <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl shadow-sm">
                     <h4 class="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-3">Top Contributors Board</h4>
                     <ol class="space-y-2 text-xs font-medium">
