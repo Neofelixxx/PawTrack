@@ -44,60 +44,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+<div class="max-w-4xl mx-auto bg-white rounded-3xl border border-sky-100/60 shadow-xl overflow-hidden min-h-[500px] flex flex-col md:flex-row">
+    
+    <!-- LEFT SIDE: ARTWORK PANEL (Using Cat Loading.jpg) -->
+    <div class="md:w-1/2 bg-sky-50 relative flex flex-col justify-between p-8 text-center border-b md:border-b-0 md:border-r border-sky-100/40">
+        <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        
+        <div class="relative z-10 my-auto flex flex-col items-center">
+            <!-- Renders your 3-cat artwork beautifully inside the login panel -->
+            <img src="/PawTrack/assets/images/Cat Loading.jpg" 
+                 alt="PawTrack Shelter Art" 
+                 class="w-72 h-auto object-contain rounded-2xl mix-blend-multiply transition duration-500 hover:scale-102">
+            <h3 class="text-2xl font-bold text-sky-800 tracking-tight mt-6">Welcome Back to PawTrack</h3>
+            <p class="text-sky-600/80 text-sm max-w-xs mt-2 mx-auto">Helping Johor Bahru shelters streamline stray cat rescue and adoption tracking operations.</p>
+        </div>
+    </div>
 
-    <h2 class="text-2xl font-bold mb-6 text-center">
-        Login
-    </h2>
+    <!-- RIGHT SIDE: FORM CONSOLE -->
+    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+        <div class="mb-6 text-center md:text-left">
+            <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Account Login</h2>
+            <p class="text-slate-500 text-sm mt-1">Access your personalized management console dashboard.</p>
+        </div>
 
-    <?php if (isset($error)) { ?>
+        <?php if (isset($error)) { ?>
+            <div class="bg-rose-50 border border-rose-100 text-rose-600 text-sm p-4 rounded-xl mb-6 flex items-center gap-2">
+                <span>⚠️</span> <b>Error:</b> <?php echo $error; ?>
+            </div>
+        <?php } ?>
 
-        <p class="text-red-500 mb-4">
-            <?php echo $error; ?>
+        <form method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Username</label>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-3 text-slate-400">👤</span>
+                    <input type="text" name="username" placeholder="Enter username" required
+                           class="w-full border border-sky-100 bg-slate-50/50 pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Password</label>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-3 text-slate-400">🔒</span>
+                    <input type="password" name="password" placeholder="••••••••" required
+                           class="w-full border border-sky-100 bg-slate-50/50 pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3.5 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-sm mt-2">
+                Sign In
+            </button>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-slate-500">
+            Don't have an account? 
+            <a href="/PawTrack/auth/register.php" class="text-sky-600 font-semibold hover:underline">Register here</a>
         </p>
-
-    <?php } ?>
-
-    <form method="POST">
-
-        <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            required
-            class="w-full border p-2 mb-3 rounded"
-        >
-
-        <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            class="w-full border p-2 mb-4 rounded"
-        >
-
-        <button
-            type="submit"
-            class="bg-blue-500 text-white px-4 py-2 rounded w-full"
-        >
-            Login
-        </button>
-
-    </form>
-
-    <p class="mt-4 text-center">
-
-        Don't have an account?
-
-        <a
-            href="/PawTrack/auth/register.php"
-            class="text-blue-500 underline"
-        >
-            Register
-        </a>
-
-    </p>
-
+    </div>
 </div>
 
 <?php include("../includes/footer.php"); ?>
