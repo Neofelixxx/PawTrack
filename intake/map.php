@@ -31,7 +31,7 @@ $shelters = pg_query($conn, "
 
 <h2 class="text-2xl font-bold mb-4">📍 Intake Map</h2>
 
-<div id="map" class="rounded shadow" style="height: 600px;"></div>
+<div id="map" class="rounded shadow !z-0" style="height: 600px;"></div>
 
 <!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />

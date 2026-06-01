@@ -55,10 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="date" name="date" required class="w-full border border-sky-100 bg-slate-50/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Location Landmark Description</label>
-                    <input type="text" name="desc" required placeholder="e.g. Near commercial market / street corner" 
-                           class="w-full border border-sky-100 bg-slate-50/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm transition">
+                <div class="w-full lg:w-7/12 relative min-h-[450px] lg:min-h-auto flex flex-col">
+                    <div class="absolute inset-0 bg-white rounded-3xl border border-sky-100/60 shadow-sm overflow-hidden p-2 flex flex-col h-full !z-0">
+                        <div id="map" style="height: 460px;" class="rounded-2xl border border-sky-100 shadow-inner !z-0"></div>
+                    </div>
                 </div>
 
                 <!-- READONLY COORDINATE GEOMETRIES -->
