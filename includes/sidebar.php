@@ -73,7 +73,7 @@ $role = $_SESSION['role'] ?? null;
     <?php if ($role) { ?>
         <div class="p-4 border-t border-sky-50 bg-sky-50/20">
             <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-sky-100/60 shadow-sm">
-                <span class="text-xs font-bold text-slate-700 truncate max-w-[120px]">👤 <?php echo $_SESSION['name'];[cite: 2] ?></span>
+                <span class="text-xs font-bold text-slate-700 truncate max-w-[120px]">👤 <?php echo $_SESSION['name']; ?></span>
                 <a href="/PawTrack/auth/logout.php" class="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition">Exit</a>
             </div>
         </div>
