@@ -22,8 +22,8 @@
                 ☰
             </button>
             <a href="/PawTrack/index.php" class="flex items-center gap-3 group">
-                <!-- Renders Cat Loading.jpg directly from your local assets folder -->
-                <img src="/PawTrack/assets/images/Cat Loading.jpg" 
+                <!-- FIXED: Renders the beautiful Cat Logo.png inside the navbar -->
+                <img src="/PawTrack/assets/images/Cat Logo.png" 
                      alt="PawTrack Logo" 
                      class="w-9 h-9 object-cover rounded-full border border-sky-200 shadow-sm group-hover:scale-105 transition duration-300">
                 <span class="text-2xl font-extrabold tracking-tight text-sky-600 group-hover:text-sky-700 transition">
