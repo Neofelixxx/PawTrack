@@ -5,59 +5,78 @@ if (session_status() === PHP_SESSION_NONE) {
 $role = $_SESSION['role'] ?? null;
 ?>
 
-<!-- BACKDROP (mobile overlay) -->
-<div
-    id="backdrop"
-    class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"
-    onclick="toggleSidebar()"
-></div>
+<!-- MOBILE BACKDROP OVERLAY -->
+<div id="backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-40 transition-all duration-300" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
-<div
-    id="sidebar"
-    class="
-        fixed top-0 left-0 h-full w-64 bg-white shadow-lg
-        transform -translate-x-full
-        transition-transform duration-300
-        z-50
-    "
->
+<!-- STYLISH SIDEBAR PANEL -->
+<div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white border-r border-sky-100/80 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col justify-between">
+    
+    <div>
+        <!-- HEADER SPECIFICATION -->
+        <div class="h-20 px-6 border-b border-sky-50 flex items-center justify-between bg-sky-50/30">
+            <div class="flex items-center gap-2.5">
+                <span class="text-xl">🎛️</span>
+                <span class="font-bold text-slate-800 tracking-tight text-sm uppercase tracking-wider">Control Panel</span>
+            </div>
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-sky-600 text-lg transition p-1.5 rounded-lg hover:bg-sky-50">
+                ✕
+            </button>
+        </div>
 
-    <div class="p-5 border-b font-bold text-[#0b1f3b]">
-        Dashboard
+        <!-- ROLE-BASED APPLICATION LINKS -->
+        <div class="p-4 space-y-1 text-sm font-medium">
+            
+            <!-- ADMIN ACCESS SCHEDULER -->
+            <?php if ($role == "Admin") { ?>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 pt-2 pb-1">System Core</p>
+                <a href="/PawTrack/dashboard/index.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">📊 Overview Hub</a>
+                <a href="/PawTrack/cats/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🐈 Manage Felines</a>
+                <a href="/PawTrack/shelters/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🏢 Partner Hubs</a>
+                <a href="/PawTrack/adoption/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🏠 Adoption Apps</a>
+                
+                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 pt-4 pb-1">Spatial Metrics</p>
+                <a href="/PawTrack/intake/map.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🗺️ GIS Hotspot Map</a>
+                <a href="/PawTrack/reports/index.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">📈 System Reports</a>
+
+            <!-- OPERATIONAL STAFF ACCESS SCHEDULER -->
+            <?php } elseif ($role == "Staff") { ?>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 pt-2 pb-1">Operations</p>
+                <a href="/PawTrack/dashboard/index.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">📋 Console Main</a>
+                <a href="/PawTrack/cats/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🐱 Feline Registry</a>
+                <a href="/PawTrack/cats/add.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">＋ Register Cat</a>
+                
+                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 pt-4 pb-1">Healthcare</p>
+                <a href="/PawTrack/vaccination/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🛡️ Immunizations</a>
+                <a href="/PawTrack/adoption/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">⚖️ Adoptions</a>
+
+            <!-- PUBLIC ADOPTER ACCESS SCHEDULER -->
+            <?php } elseif ($role == "Adopter") { ?>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 pt-2 pb-1">My Account</p>
+                <a href="/PawTrack/cats/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">🐈 Search Profiles</a>
+                <a href="/PawTrack/adoption/list.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">📋 My Applications</a>
+                <a href="/PawTrack/donation/add.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:text-sky-600 hover:bg-sky-50 transition duration-150">💝 Send Donation</a>
+
+            <!-- ANONYMOUS GUEST VISITOR -->
+            <?php } else { ?>
+                <div class="p-4 text-center space-y-3 bg-slate-50 rounded-2xl border border-sky-50 mt-2">
+                    <p class="text-xs text-slate-500 leading-relaxed">Sign in to unlock interactive management features[cite: 2].</p>
+                    <a href="/PawTrack/auth/login.php" class="block bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 rounded-xl text-xs shadow transition">
+                        Login Here
+                    </a>
+                </div>
+            <?php } ?>
+            
+        </div>
     </div>
 
-    <div class="p-5 space-y-3 text-sm">
-
-        <?php if ($role == "Admin") { ?>
-
-            <a href="/PawTrack/dashboard/index.php" class="block hover:text-[#3679f7]">Overview</a>
-            <a href="/PawTrack/cats/list.php" class="block hover:text-[#3679f7]">Manage Cats</a>
-            <a href="/PawTrack/shelters/list.php" class="block hover:text-[#3679f7]">Shelters</a>
-            <a href="/PawTrack/adoption/list.php" class="block hover:text-[#3679f7]">Adoptions</a>
-            <a href="/PawTrack/intake/map.php" class="block hover:text-[#3679f7]">GIS Map</a>
-            <a href="/PawTrack/reports/index.php" class="block hover:text-[#3679f7]">Reports</a>
-
-        <?php } elseif ($role == "Staff") { ?>
-
-            <a href="/PawTrack/dashboard/index.php" class="block hover:text-[#3679f7]">Dashboard</a>
-            <a href="/PawTrack/cats/list.php" class="block hover:text-[#3679f7]">Cats</a>
-            <a href="/PawTrack/cats/add.php" class="block hover:text-[#3679f7]">Add Cat</a>
-            <a href="/PawTrack/vaccination/list.php" class="block hover:text-[#3679f7]">Vaccination</a>
-            <a href="/PawTrack/adoption/list.php" class="block hover:text-[#3679f7]">Adoptions</a>
-
-        <?php } elseif ($role == "Adopter") { ?>
-
-            <a href="/PawTrack/cats/list.php" class="block hover:text-[#3679f7]">Browse Cats</a>
-            <a href="/PawTrack/adoption/list.php" class="block hover:text-[#3679f7]">My Adoptions</a>
-            <a href="/PawTrack/donation/list.php" class="block hover:text-[#3679f7]">Donate</a>
-
-        <?php } else { ?>
-
-            <p class="text-gray-500">Please login.</p>
-
-        <?php } ?>
-
-    </div>
+    <!-- SIDEBAR ACCOUNT STATUS MODULE FOOTER -->
+    <?php if ($role) { ?>
+        <div class="p-4 border-t border-sky-50 bg-sky-50/20">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-sky-100/60 shadow-sm">
+                <span class="text-xs font-bold text-slate-700 truncate max-w-[120px]">👤 <?php echo $_SESSION['name'];[cite: 2] ?></span>
+                <a href="/PawTrack/auth/logout.php" class="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition">Exit</a>
+            </div>
+        </div>
+    <?php } ?>
 
 </div>
