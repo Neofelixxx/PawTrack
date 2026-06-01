@@ -1,11 +1,21 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Automatically clear out old session states if visiting the page fresh via GET
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    unset($_SESSION['user_id']);
+    unset($_SESSION['username']);
+    unset($_SESSION['role']);
+    unset($_SESSION['shelter_id']);
+}
 
 include("../config/db.php");
 include("../includes/header.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $username = $_POST['username'];
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
     $query = "
@@ -15,20 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ";
 
     $result = pg_query_params($conn, $query, [$username]);
-
     $user = pg_fetch_assoc($result);
 
     if ($user) {
-
+        // Plain text check matching your seed table encryption state
         if ($password == $user['password']) {
+            
+            // 🔥 CRITICAL ACCORDANCE RE-ALIGNMENT FIX:
+            $_SESSION['user_id']    = (int)$user['userid'];
+            $_SESSION['username']   = $user['username'];
+            $_SESSION['role']       = $user['role'];
+            $_SESSION['name']       = $user['name'];
+            $_SESSION['shelter_id'] = $user['shelterid'] ? (int)$user['shelterid'] : null;
 
-            $_SESSION['user'] = $user['userid'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['name'] = $user['name'];
-
-            $redirect =
-                $_GET['redirect']
-                ?? "/PawTrack/index.php";
+            // Handle clean direction jumping routing
+            $redirect = $_GET['redirect'] ?? "/PawTrack/dashboard/index.php";
 
             header("Location: $redirect");
             exit;
@@ -36,22 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $error = "Invalid password";
         }
-
     } else {
         $error = "User not found";
     }
 }
-
 ?>
 
-<div class="max-w-4xl mx-auto bg-white rounded-3xl border border-sky-100/60 shadow-xl overflow-hidden min-h-[500px] flex flex-col md:flex-row">
+<div class="max-w-4xl mx-auto bg-white rounded-3xl border border-sky-100/60 shadow-xl overflow-hidden min-h-[500px] flex flex-col md:flex-row mt-4">
     
-    <!-- LEFT SIDE: ARTWORK PANEL (Using Cat Loading.jpg) -->
     <div class="md:w-1/2 bg-sky-50 relative flex flex-col justify-between p-8 text-center border-b md:border-b-0 md:border-r border-sky-100/40">
         <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px]"></div>
         
         <div class="relative z-10 my-auto flex flex-col items-center">
-            <!-- Renders your 3-cat artwork beautifully inside the login panel -->
             <img src="/PawTrack/assets/images/Cat Loading.jpg" 
                  alt="PawTrack Shelter Art" 
                  class="w-72 h-auto object-contain rounded-2xl mix-blend-multiply transition duration-500 hover:scale-102">
@@ -60,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <!-- RIGHT SIDE: FORM CONSOLE -->
     <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
         <div class="mb-6 text-center md:text-left">
             <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Account Login</h2>
