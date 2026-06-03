@@ -39,19 +39,16 @@ die(pg_last_error($conn));
         <?php while ($row = pg_fetch_assoc($result)) { ?>
             <div class="bg-white rounded-3xl border border-sky-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
                 <div>
-                    <!-- Image Container with Aspect Ratio -->
                     <?php if ($row['image']) { ?> 
                         <div class="relative overflow-hidden aspect-[4/3] bg-sky-50">
-                            <img src="../assets/images/cats/<?php echo $row['image']; ?>" 
+                            <img src="<?php echo $base_path; ?>assets/images/cats/<?php echo $row['image']; ?>" 
                                  class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
                                  alt="<?php echo $row['name']; ?>">
-                            <!-- Absolute Status Badge -->
                             <span class="absolute top-4 right-4 bg-sky-600 text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm tracking-wide">
                                 <?php echo $row['status']; ?>
                             </span>
                         </div>
                     <?php } else { ?>
-                        <!-- Fallback empty state space -->
                         <div class="aspect-[4/3] bg-sky-50 flex flex-col items-center justify-center text-sky-400 gap-2">
                             <span class="text-4xl">🐈</span>
                             <span class="text-xs font-bold uppercase tracking-wider">No Image Uploaded</span>

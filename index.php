@@ -40,17 +40,17 @@ $total_shelters = pg_fetch_assoc(pg_query($conn, "SELECT COUNT(*) AS total FROM 
 
         <div class="lg:col-span-5 h-64 lg:h-full min-h-[420px] bg-sky-50 relative overflow-hidden flex items-center justify-center">
             <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            
-            <img src="/PawTrack/assets/images/Homepage Kitty.jpg" 
+    
+           <img src="<?php echo $base_path; ?>assets/images/Homepage Kitty.jpg" 
                  alt="PawTrack Welcome Feline" 
-                 class="w-full h-full object-cover relative z-10 transition duration-500 hover:scale-103"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                 
-            <div class="hidden absolute inset-0 flex flex-col items-center justify-center text-sky-300">
-                <svg class="w-16 h-16 opacity-40" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 14c-1.66 0-3 1.12-3 2.5 0 2.48 2.5 4.5 3 4.5s3-2.02 3-4.5c0-1.38-1.34-2.5-3-2.5zm-4.5-3c-.83 0-1.5.84-1.5 1.88 0 1.87 1.25 3.37 1.5 3.37s1.5-1.5 1.5-3.37c0-1.04-.67-1.88-1.5-1.88z"/>
-                </svg>
-            </div>
+                class="w-full h-full object-cover relative z-10 transition duration-500 hover:scale-103"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+         
+          <div class="hidden absolute inset-0 flex flex-col items-center justify-center text-sky-300">
+              <svg class="w-16 h-16 opacity-40" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 14c-1.66 0-3 1.12-3 2.5 0 2.48 2.5 4.5 3 4.5s3-2.02 3-4.5c0-1.38-1.34-2.5-3-2.5zm-4.5-3c-.83 0-1.5.84-1.5 1.88 0 1.87 1.25 3.37 1.5 3.37s1.5-1.5 1.5-3.37c0-1.04-.67-1.88-1.5-1.88z"/>
+             </svg>
+          </div>
         </div>
     </div>
 

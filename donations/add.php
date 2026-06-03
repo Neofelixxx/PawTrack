@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result) {
         $_SESSION['message'] = "Donation intent successfully recorded.";
-        header("Location: /PawTrack/donations/add.php");
+        header("Location: " . $base_path . "donations/add.php");
         exit;
     }
 }
@@ -47,28 +47,25 @@ $top_query = "
 $top_result = pg_query($conn, $top_query);
 ?>
 
-<!-- FIXED ARCHITECTURAL CONTAINER (Image locked to viewport scale, independent of zoom) -->
-<div class="w-full min-h-[calc(100vh-80px)] bg-cover bg-center bg-no-repeat bg-fixed py-8" style="background-image: url('/PawTrack/assets/images/Cat BG Blue.jpg');">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="rounded-3xl overflow-hidden bg-cover bg-center bg-no-repeat border border-sky-100 p-4 sm:p-6 md:p-8 mb-8 shadow-sm" 
+     style="background-image: url('<?php echo $base_path; ?>assets/images/Cat BG Blue.jpg');">
+    
+    <div class="max-w-7xl mx-auto space-y-8">
         
-        <!-- CONSOLIDATED CONSOLE CONTROL HEADER (Glassmorphic) -->
-        <div class="mb-8 bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Support Operations Center</h2>
                 <p class="text-slate-500 text-sm mt-1">Unified module managing direct financial transfers, material allocations, and active benefactor logs.</p>
             </div>
-            <div class="bg-sky-600 text-white text-xs font-bold font-mono px-4 py-2 rounded-xl shadow-sm self-start md:self-center">
+            <div class="bg-sky-600 text-white text-xs font-bold font-mono px-4 py-2.5 rounded-xl shadow-sm self-start sm:self-center">
                 Total Combined Support: RM <?php echo number_format($summary_funds['overall']); ?>
             </div>
         </div>
 
-        <!-- MAIN PLATFORM HUB GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
-            <!-- LEFT & CENTER DESK: FUNDING SPECIFICS & WISHLISTS -->
             <div class="lg:col-span-2 space-y-8">
                 
-                <!-- PANEL A: DUITNOW QR & ACCOUNT METRICS -->
                 <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm">
                     <div class="pb-3 border-b border-slate-200/60 mb-5">
                         <h3 class="text-md font-bold text-slate-800 tracking-tight">Direct Capital Funding Channels</h3>
@@ -107,18 +104,17 @@ $top_result = pg_query($conn, $top_query);
                     </div>
                 </div>
 
-                <!-- PANEL B: MATERIAL WISHLIST -->
                 <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm">
                     <div class="pb-3 border-b border-slate-200/60 mb-4">
                         <h3 class="text-md font-bold text-slate-800 tracking-tight">Standardized Material Wishlist Checklists</h3>
                     </div>
 
                     <div class="bg-sky-50/80 border border-sky-100 text-sky-900 rounded-xl p-4 mb-5 text-xs leading-relaxed">
-                        <span class="font-bold text-sky-700 block uppercase tracking-wide mb-1">🇲🇾 Regional Dietary Compliance Notice (Porcine-Free Requirement)</span>
-                        To respect our majority Muslim stakeholder framework across local Malaysian communities, all dry kibbles, milk replacers, and wet pouches dropped off must be entirely free from porcine (pig) ingredients or cross-contamination derivatives. This ensures all animal feeding and cleaning workflows remain completely accessible to all local area volunteers and staff nodes.
+                        <span class="font-bold text-sky-700 block uppercase tracking-wide mb-1">🇲🇾 Regional Dietary Compliance Notice</span>
+                        To respect our majority Muslim stakeholder framework across local Malaysian communities, all dry kibbles, milk replacers, and wet pouches dropped off must be entirely free from porcine (pig) ingredients.
                     </div>
 
-                    <div class="overflow-hidden border border-slate-100 rounded-xl text-xs bg-white">
+                    <div class="overflow-x-auto border border-slate-100 rounded-xl text-xs bg-white">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-100 text-[10px]">
@@ -129,7 +125,7 @@ $top_result = pg_query($conn, $top_query);
                             <tbody class="divide-y divide-slate-100 text-slate-600">
                                 <tr class="hover:bg-slate-50/30">
                                     <td class="p-3 pl-4 font-bold text-slate-800">Pet Nourishment</td>
-                                    <td class="p-3">Kitten milk replacers, junior nutrient kibbles, and premium canned feline food. <span class="text-sky-600 font-semibold font-mono">(Porcine-Free / Bebas Unsur Babi)</span></td>
+                                    <td class="p-3">Kitten milk replacers, junior nutrient kibbles, and premium canned feline food. <span class="text-sky-600 font-semibold font-mono">(Porcine-Free)</span></td>
                                 </tr>
                                 <tr class="hover:bg-slate-50/30">
                                     <td class="p-3 pl-4 font-bold text-slate-800">Hygiene Management</td>
@@ -141,7 +137,7 @@ $top_result = pg_query($conn, $top_query);
                                 </tr>
                                 <tr class="hover:bg-slate-50/30">
                                     <td class="p-3 pl-4 font-bold text-slate-800">Facility Hardware</td>
-                                    <td class="p-3">Pinewood/tofu cat litter bags, stainless steel feeding bowls, and modular steel wire cages (3ft × 3ft × 3ft).</td>
+                                    <td class="p-3">Pinewood/tofu cat litter bags, stainless steel feeding bowls, and modular steel wire cages.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -149,7 +145,6 @@ $top_result = pg_query($conn, $top_query);
                 </div>
             </div>
 
-            <!-- RIGHT DESK: FORM CONSOLE & LEADERBOARD INTERACTION -->
             <div class="space-y-6">
                 <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm">
                     <div class="mb-4">
@@ -157,7 +152,7 @@ $top_result = pg_query($conn, $top_query);
                         <p class="text-slate-400 text-xs mt-0.5">Record your contribution data directly into our local tracking pipeline.</p>
                     </div>
 
-                    <form method="POST" action="/PawTrack/donations/add.php" class="space-y-4 text-xs">
+                    <form method="POST" action="<?php echo $base_path; ?>donations/add.php" class="space-y-4 text-xs">
                         <div>
                             <label class="block font-bold text-slate-400 uppercase tracking-wider mb-1">Donor Profile Name</label>
                             <input type="text" name="donorname" placeholder="<?php echo isset($_SESSION['user_id']) ? 'Using logged account profile' : 'Anonymous Donor'; ?>" class="w-full bg-white border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm">
@@ -167,7 +162,7 @@ $top_result = pg_query($conn, $top_query);
                             <label class="block font-bold text-slate-400 uppercase tracking-wider mb-1">Target Distribution Hub</label>
                             <select name="shelterid" required class="w-full bg-white border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-700">
                                 <?php while ($s = pg_fetch_assoc($shelters)) { ?>
-                                    <option value="<?php echo $s['shelterid']; ?>"><?php echo $s['name']; ?></option>
+                                    <option value="<?php echo $s['shelterid']; ?>"><?php echo htmlspecialchars($s['name']); ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -220,15 +215,14 @@ $top_result = pg_query($conn, $top_query);
             </div>
         </div>
 
-        <!-- CORPORATE MONOCHROME SCAM DIRECTION ALERT -->
         <div class="bg-white/95 backdrop-blur-md rounded-2xl p-5 border border-sky-100/60 text-xs text-slate-600 leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-6 shadow-sm">
             <div class="border-b md:border-b-0 md:border-r border-slate-200 pb-4 md:pb-0 md:pr-4">
                 <strong class="text-slate-800 uppercase tracking-wide block mb-1">🔒 Maklumat Pengesahan Keselamatan</strong>
-                Berhati-hati dengan maklumat palsu yang menular di media sosial seperti Telegram, WhatsApp dan sebagainya. Sentiasa berwaspada terhadap sebarang kutipan dana pihak ketiga atau skim yang mencurigakan. Sila lakukan pengesahan rasmi melalui talian rangkaian PawTrack di <span class="font-bold text-slate-800">017-2847500</span> atau emel <span class="font-mono font-semibold text-sky-600">security@pawtrack.org</span>.
+                Sentiasa berwaspada terhadap sebarang kutipan dana pihak ketiga atau skim mencurigakan. Sila lakukan pengesahan rasmi melalui talian rangkaian PawTrack di <span class="font-bold text-slate-800">017-2847500</span>.
             </div>
             <div>
                 <strong class="text-slate-800 uppercase tracking-wide block mb-1">🔒 Security Verification Directive</strong>
-                Beware of unauthorized collection vectors or fraudulent fundraising requests spreading across messaging networks. Always verify funding accounts directly through official deployment nodes. Address all administrative or data validation audits to our direct network verification helpline at <span class="font-bold text-slate-800">017-2847500</span>.
+                Beware of unauthorized collection vectors or fraudulent fundraising requests. Always verify funding accounts directly through official deployment nodes at <span class="font-bold text-slate-800">017-2847500</span>.
             </div>
         </div>
     </div>

@@ -74,14 +74,21 @@ $role = $_SESSION['role'] ?? null;
 
         <!-- RIGHT PANEL: CRISP PHOTO ASSET DISPLAY -->
         <div class="md:col-span-5 h-72 md:h-full min-h-[380px] bg-sky-50 relative overflow-hidden flex items-center justify-center border-t md:border-t-0 md:border-l border-sky-100">
-            <?php if ($cat['image']) { ?> 
-                <img src="../assets/images/cats/<?php echo htmlspecialchars($cat['image']); ?>" alt="<?php echo htmlspecialchars($cat['name']); ?>" class="w-full h-full object-cover absolute inset-0">
-            <?php } else { ?>
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-sky-400 gap-2">
-                    <span class="text-6xl">🐈</span>
-                    <span class="text-xs font-bold uppercase tracking-wider">No Profile Image Provided</span>
-                </div>
-            <?php } ?>
+            <?php if ($row['image']) { ?> 
+                        <div class="relative overflow-hidden aspect-[4/3] bg-sky-50">
+                            <img src="<?php echo $base_path; ?>assets/images/cats/<?php echo $row['image']; ?>" 
+                                 class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
+                                 alt="<?php echo $row['name']; ?>">
+                            <span class="absolute top-4 right-4 bg-sky-600 text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-sm tracking-wide">
+                                <?php echo $row['status']; ?>
+                            </span>
+                        </div>
+                    <?php } else { ?>
+                        <div class="aspect-[4/3] bg-sky-50 flex flex-col items-center justify-center text-sky-400 gap-2">
+                            <span class="text-4xl">🐈</span>
+                            <span class="text-xs font-bold uppercase tracking-wider">No Image Uploaded</span>
+                        </div>
+                    <?php } ?>
         </div>
     </div>
 
