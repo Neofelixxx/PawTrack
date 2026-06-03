@@ -13,6 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $gender = $_POST['gender'];
     $description = trim($_POST['description']);
     $shelterid = $_POST['shelterid'];
+    
+    // Captured the new trait parameters sent from your extended form elements
+    $color = trim($_POST['color']);
+    $pattern = trim($_POST['pattern']);
+    $eye_color = trim($_POST['eye_color']);
+    $special_remarks = trim($_POST['special_remarks']);
 
     $imageName = "";
     if (!empty($_FILES['image']['name'])) {
@@ -21,8 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($_FILES['image']['tmp_name'], $target);
     }
 
-    $query = "INSERT INTO Cat (ShelterID, Name, Breed, BirthDate, AgeCategory, Gender, Description, Image, Status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'Available')";
-    $result = pg_query_params($conn, $query, [$shelterid, $name, $breed, $birthdate ?: null, $agecategory, $gender, $description, $imageName]);
+    // Expanded SQL insert string map to account for parameters $9 through $12
+    $query = "INSERT INTO Cat (ShelterID, Name, Breed, BirthDate, AgeCategory, Gender, Description, Image, Status, color, pattern, eye_color, special_remarks) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'Available', $9, $10, $11, $12)";
+    $result = pg_query_params($conn, $query, [
+        $shelterid, $name, $breed, $birthdate ?: null, $agecategory, $gender, $description, $imageName,
+        $color ?: null, $pattern ?: null, $eye_color ?: null, $special_remarks ?: null
+    ]);
 
     if ($result) { 
         header("Location: list.php");
@@ -35,7 +45,7 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
 <div class="max-w-2xl mx-auto px-4 mt-2">
     <div class="mb-6">
         <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Register New Feline</h2>
-        <p class="text-slate-800 font-semibold text-sm">Provision a new rescue case profile file into the municipal management grid node.</p>
+        <p class="text-slate-800 font-semibold text-sm">Add a new rescue case profile to the system management network.</p>
     </div>
 
     <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-3xl border border-sky-100 shadow-sm space-y-5 text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -74,6 +84,26 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
             </div>
         </div>
 
+        <!-- NEWLY INJECTED PHYSICAL CHARACTERISTICS INPUT ELEMENT ROW -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-sky-50/40 p-4 rounded-2xl border border-sky-100">
+            <div class="sm:col-span-3 flex justify-between items-center pb-1 border-b border-sky-100/60">
+                <span class="text-sky-700 tracking-wide">Automated Image Features Selection</span>
+                <span id="scan_loading_status" class="text-[10px] tracking-normal text-slate-400 italic font-medium normal-case">Select image below to run auto-fill scanner...</span>
+            </div>
+            <div>
+                <label class="block mb-1.5 text-sky-800">Fur Color</label>
+                <input type="text" name="color" id="color_form_field" placeholder="Pending scan..." class="w-full bg-white border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case">
+            </div>
+            <div>
+                <label class="block mb-1.5 text-sky-800">Coat Pattern</label>
+                <input type="text" name="pattern" id="pattern_form_field" placeholder="Pending scan..." class="w-full bg-white border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case">
+            </div>
+            <div>
+                <label class="block mb-1.5 text-sky-800">Eye Color</label>
+                <input type="text" name="eye_color" id="eye_color_form_field" placeholder="Pending scan..." class="w-full bg-white border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case">
+            </div>
+        </div>
+
         <div>
             <label class="block mb-1.5">Assigned Target Shelter</label>
             <select name="shelterid" required class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-semibold text-slate-700">
@@ -85,12 +115,18 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
 
         <div>
             <label class="block mb-1.5">Case History Background Description</label>
-            <textarea name="description" rows="4" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case"></textarea>
+            <textarea name="description" rows="3" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case"></textarea>
+        </div>
+
+        <!-- NEWLY INJECTED TEXTAREA ELEMENT FOR SPECIAL REMARKS / TRICKS -->
+        <div>
+            <label class="block mb-1.5">Special Talents / Behavioral Remarks</label>
+            <textarea name="special_remarks" rows="2" placeholder="List any learned tricks, friendly habits, unique house rules behavior..." class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case"></textarea>
         </div>
 
         <div>
             <label class="block mb-1.5">Profile Photo File Attachment</label>
-            <input type="file" name="image" class="w-full text-slate-600 font-medium text-sm mt-1">
+            <input type="file" name="image" id="cat_image_input" required class="w-full text-slate-600 font-medium text-sm mt-1">
         </div>
 
         <div class="flex gap-3 pt-2">
@@ -103,5 +139,55 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
         </div>
     </form>
 </div>
+
+<!-- BACKGROUND AUTOMATED COAT FEATURES ANALYZER ASYNC UTILITY SCRIPT -->
+<script>
+document.getElementById('cat_image_input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const notificationContainer = document.getElementById('scan_loading_status');
+    if (notificationContainer) {
+        notificationContainer.classList.remove('text-slate-400');
+        notificationContainer.classList.add('text-sky-600');
+        notificationContainer.textContent = "Scanning coat traits and features...";
+    }
+
+    const formData = new FormData();
+    formData.append('cat_photo', file);
+
+    fetch('analyze_cat.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('color_form_field').value = data.color;
+            document.getElementById('pattern_form_field').value = data.pattern;
+            document.getElementById('eye_color_form_field').value = data.eye_color;
+            
+            if (notificationContainer) {
+                notificationContainer.classList.remove('text-sky-600');
+                notificationContainer.classList.add('text-emerald-600');
+                notificationContainer.textContent = "Traits matched successfully!";
+            }
+        } else {
+            console.error("Vision API exception:", data.error);
+            if (notificationContainer) {
+                notificationContainer.classList.remove('text-sky-600');
+                notificationContainer.classList.add('text-amber-600');
+                notificationContainer.textContent = "Auto-scan failed. Input traits manually.";
+            }
+        }
+    })
+    .catch(error => {
+        console.error("Network loop handler exception:", error);
+        if (notificationContainer) {
+            notificationContainer.textContent = "Scanning engine error.";
+        }
+    });
+});
+</script>
 
 <?php include("../includes/footer.php"); ?>
