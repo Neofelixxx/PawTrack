@@ -3,6 +3,7 @@ include("../config/db.php");
 include("../includes/header.php");
 $role = $_SESSION['role'] ?? null;
 
+// Query pulls all standard variables matching eye color criteria attributes
 $query = "
     SELECT c.*, s.Name AS ShelterName
     FROM Cat c
@@ -65,13 +66,16 @@ if (!$result) {
                             </span>
                         </div>
 
-                        <!-- COAT TAGS -->
+                        <!-- CHARACTERISTICS METADATA TAG PILLS -->
                         <div class="flex flex-wrap gap-1.5 mb-4">
                             <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
                                 Color: <?php echo !empty($row['color']) ? htmlspecialchars($row['color']) : 'Mixed Color'; ?>
                             </span>
                             <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
                                 Pattern: <?php echo !empty($row['pattern']) ? htmlspecialchars($row['pattern']) : 'Solid Pattern'; ?>
+                            </span>
+                            <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded">
+                                Eyes: <?php echo !empty($row['eye_color']) ? htmlspecialchars($row['eye_color']) : 'Unknown'; ?>
                             </span>
                         </div>
 

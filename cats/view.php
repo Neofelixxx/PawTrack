@@ -52,23 +52,29 @@ $role = $_SESSION['role'] ?? null;
                 </div>
             </div>
 
-            <!-- ADOPTION ACTION HUB -->
-            <div class="pt-6 border-t border-slate-100">
+            <!-- ACTION ACTION HUB (ADOPTION & SPONSORSHIP) -->
+            <div class="pt-6 border-t border-slate-100 flex flex-wrap gap-4 items-center">
                 <?php if ($cat['status'] == 'Available') { ?>
                     <?php if ($role == "Adopter") { ?>
-                        <a href="/PawTrack/adoption/add.php?catid=<?php echo $cat['catid']; ?>" class="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150 text-sm">
+                        <a href="/PawTrack/adoption/add.php?catid=<?php echo $cat['catid']; ?>" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150 text-sm">
                             Apply to Adopt <?php echo htmlspecialchars($cat['name']); ?>
                         </a>
                     <?php } elseif (!$role) { ?> 
-                        <a href="/PawTrack/auth/login.php?redirect=/PawTrack/cats/view.php?id=<?php echo $cat['catid']; ?>" class="inline-block bg-slate-800 hover:bg-sky-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150 text-sm">
+                        <a href="/PawTrack/auth/login.php?redirect=/PawTrack/cats/view.php?id=<?php echo $cat['catid']; ?>" class="bg-slate-800 hover:bg-sky-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150 text-sm">
                             Sign In to File Adoption Request
                         </a>
                     <?php } ?>
                 <?php } else { ?>
-                    <div class="p-4 bg-amber-50 text-amber-900 rounded-xl border border-amber-200 text-xs font-bold">
+                    <div class="p-4 bg-amber-50 text-amber-900 rounded-xl border border-amber-200 text-xs font-bold flex-1">
                         Adoption locked. This profile is currently flagged as: <?php echo htmlspecialchars($cat['status']); ?>.
                     </div>
                 <?php } ?>
+
+                <!-- DYNAMIC SPONSORSHIP BUTTON LINK: Routes right to donation form with contextual data parameters -->
+                <a href="/PawTrack/donations/add.php?sponsor_catid=<?php echo $cat['catid']; ?>&shelterid=<?php echo $cat['shelterid']; ?>" 
+                   class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150 text-sm">
+                    Sponsor <?php echo htmlspecialchars($cat['name']); ?>
+                </a>
             </div>
         </div>
 
@@ -115,6 +121,11 @@ $role = $_SESSION['role'] ?? null;
 
                 <div class="space-y-3.5">
                     <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+                        <span class="font-bold text-slate-400 uppercase text-[11px] tracking-wider">Eye Color</span>
+                        <!-- Added Eye Color Value Output View Box -->
+                        <span class="font-semibold text-slate-800"><?php echo !empty($cat['eye_color']) ? htmlspecialchars($cat['eye_color']) : 'Not Logged'; ?></span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-slate-50 pb-2">
                         <span class="font-bold text-slate-400 uppercase text-[11px] tracking-wider">Current Home Base</span>
                         <span class="font-semibold text-slate-800"><?php echo htmlspecialchars($cat['shelter_name']); ?></span>
                     </div>
@@ -125,10 +136,6 @@ $role = $_SESSION['role'] ?? null;
                     <div class="flex justify-between items-center border-b border-slate-50 pb-2">
                         <span class="font-bold text-slate-400 uppercase text-[11px] tracking-wider">Age Group</span>
                         <span class="font-semibold text-slate-800"><?php echo htmlspecialchars($cat['agecategory']); ?></span>
-                    </div>
-                    <div class="flex justify-between items-center border-b border-slate-50 pb-2">
-                        <span class="font-bold text-slate-400 uppercase text-[11px] tracking-wider">Estimated Birthdate</span>
-                        <span class="font-semibold text-slate-800"><?php echo !empty($cat['birthdate']) ? date("d M Y", strtotime($cat['birthdate'])) : 'Unknown'; ?></span>
                     </div>
                 </div>
             </div>
