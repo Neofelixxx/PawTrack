@@ -120,10 +120,17 @@ if ($role == "Admin" || $role == "Staff") {
                                 🛡️ <?php echo !empty($row['reviewer_name']) ? $row['reviewer_name'] : '<span class="text-slate-300 font-normal italic text-xs">Unassigned</span>'; ?>
                             </td>
                             
-                            <!-- Conditional Action Toggles -->
+                        <!-- Conditional Action Toggles -->
                             <td class="p-4 pr-6 text-right">
-                                <?php if (($role == "Admin" || $role == "Staff") && $row['status'] == 'Pending') { ?>
-                                    <div class="flex items-center justify-center gap-2">
+                                <div class="flex items-center justify-end gap-2">
+                                    <!-- Everyone gets the View button -->
+                                    <a href="view.php?id=<?php echo $row['adoptionid']; ?>" 
+                                       class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                                        View
+                                    </a>
+                                    
+                                    <!-- Only Management gets quick Approve/Reject buttons -->
+                                    <?php if (($role == "Admin" || $role == "Staff" || $role == "Manager") && $row['status'] == 'Pending') { ?>
                                         <a href="action.php?id=<?php echo $row['adoptionid']; ?>&action=approve" 
                                            class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm transition">
                                             Approve
@@ -132,12 +139,8 @@ if ($role == "Admin" || $role == "Staff") {
                                            class="border border-rose-200 hover:bg-rose-50 text-rose-600 font-bold px-3 py-1.5 rounded-xl text-xs transition">
                                             Reject
                                         </a>
-                                    </div>
-                                <?php } else { ?>
-                                    <span class="text-xs font-medium text-slate-400">
-                                        Filed: <?php echo !empty($row['adoptiondate']) ? date("d M Y", strtotime($row['adoptiondate'])) : 'In Screening'; ?>
-                                    </span>
-                                <?php } ?>
+                                    <?php } ?>
+                                </div>
                             </td>
 
                         </tr>
