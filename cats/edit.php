@@ -45,14 +45,14 @@ include("../includes/header.php");
 
 <div class="max-w-2xl mx-auto px-4 mt-2">
     <div class="mb-6">
-        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Modify Profile File</h2>
-        <p class="text-slate-800 font-semibold text-sm">Update telemetry, behavioral conditions, or spatial placement configurations for this feline entry.</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Modify Profile</h2>
+        <p class="text-slate-800 font-semibold text-sm">Update details, behavioral conditions, or spatial placement configurations for this cat entry.</p>
     </div>
 
     <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-3xl border border-sky-100 shadow-sm space-y-5 text-xs font-bold text-slate-500 uppercase tracking-wider">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block mb-1.5">Feline Given Name</label>
+                <label class="block mb-1.5">Cat Given Name</label>
                 <input type="text" name="name" value="<?php echo htmlspecialchars($cat['name']); ?>" required class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case">
             </div>
             <div>
@@ -77,7 +77,7 @@ include("../includes/header.php");
                 </select>
             </div>
             <div>
-                <label class="block mb-1.5">Gender Sex</label>
+                <label class="block mb-1.5">Gender</label>
                 <select name="gender" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-semibold text-slate-700">
                     <option value="Male" <?php if($cat['gender']=='Male') echo 'selected'; ?>>Male</option>
                     <option value="Female" <?php if($cat['gender']=='Female') echo 'selected'; ?>>Female</option>
@@ -87,7 +87,7 @@ include("../includes/header.php");
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block mb-1.5">Operational Care Status</label>
+                <label class="block mb-1.5">Care Status</label>
                 <select name="status" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-semibold text-slate-700">
                     <?php
                     $statuses = ['Available', 'Adopted', 'Under Treatment', 'Quarantined', 'Deceased', 'Transferred'];
@@ -109,7 +109,7 @@ include("../includes/header.php");
         </div>
 
         <div>
-            <label class="block mb-1.5">Case History Background Description</label>
+            <label class="block mb-1.5">Background Description</label>
             <textarea name="description" rows="4" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case"><?php echo htmlspecialchars($cat['description']); ?></textarea>
         </div>
 
@@ -125,7 +125,7 @@ include("../includes/header.php");
 
         <div class="flex gap-3 pt-2">
             <button type="submit" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-sm">
-                Save Parameter Updates
+                Save Updates
             </button>
             <a href="list.php" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3 rounded-xl text-sm transition text-center">
                 Cancel

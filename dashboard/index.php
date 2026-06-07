@@ -13,7 +13,7 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $shelter_id = isset($_SESSION['shelter_id']) ? $_SESSION['shelter_id'] : null;
 
 // Fetch shelter metadata context if bound to a facility (Managers & Staff)
-$facility_name = "Global District Network";
+$facility_name = "Combined Shelter Network";
 if ($shelter_id) {
     $shelter_stmt = pg_query_params($conn, "SELECT Name FROM Shelter WHERE ShelterID = $1", array($shelter_id));
     if ($shelter_row = pg_fetch_assoc($shelter_stmt)) {
@@ -22,241 +22,165 @@ if ($shelter_id) {
 }
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-12">
     
-    <!-- DASHBOARD WELCOME HEADER -->
     <div class="mb-8 border-b border-sky-100 pb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Operations Dashboard</h2>
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight">Operations Dashboard</h2>
             <p class="text-slate-500 text-sm mt-1">
-                Security Profile: 
-                <span class="bg-sky-50 text-sky-700 font-bold px-2.5 py-1 rounded-md border border-sky-100/60 ml-1 text-xs uppercase tracking-wider">
-                    <?php echo $role; ?>
+                Access Level: 
+                <span class="bg-sky-50 text-sky-700 font-bold px-2.5 py-1 rounded-md border border-sky-100/60 ml-1 text-xs uppercase tracking-wide">
+                    <?php echo htmlspecialchars($role); ?>
                 </span>
                 <?php if ($shelter_id) { ?>
-                    <span class="text-xs text-slate-400 font-mono ml-2">Assigned to: <?php echo $facility_name; ?></span>
+                    <span class="text-xs text-slate-400 font-mono ml-2">Assigned Hub: <?php echo htmlspecialchars($facility_name); ?></span>
                 <?php } ?>
             </p>
         </div>
-        <div class="text-xs font-semibold text-slate-500 bg-white px-4 py-2 rounded-xl border border-sky-100/40 shadow-sm shrink-0 self-start sm:self-center">
+        <div class="text-xs font-semibold text-slate-500 bg-white px-4 py-2 rounded-xl border border-sky-100/40 shadow-sm self-start sm:self-center">
             📍 Operation Node: Johor Bahru Network
         </div>
     </div>
 
-    <!-- ==================== 1. SYSTEM ADMIN PANEL WORKSPACE ==================== -->
     <?php if ($role == "Admin") { ?>
         <div class="space-y-6">
             <div class="p-4 bg-slate-900 rounded-2xl text-sm text-slate-200 shadow-sm flex items-center gap-3">
                 <span class="text-xl">🔑</span>
-                <div>
-                    <strong>Infrastructure Root Control Active:</strong> Global platform oversight framework. You are authorized to manage cross-shelter user provisioning, drop database tables, and track raw PostGIS/QGIS geometric parameters.
+                <div class="break-words">
+                    <strong>System Administration Active:</strong> Global platform settings enabled. Access parameters permit the oversight of accounts, registration of shelter facility parameters, and evaluation of rescue mapping databases.
                 </div>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <a href="../cats/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-500 group-hover:text-white transition-all duration-200 shadow-sm">🐱</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Feline Registry</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Global profile system override auditing all operational hubs.</p>
+                <a href="../cats/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl group-hover:bg-sky-500 group-hover:text-white transition-all shadow-sm shrink-0">🐱</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Cat Database</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Review records and health parameters across all processing facilities.</p>
                     </div>
                 </a>
-
-                <a href="../shelters/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition-all duration-200 shadow-sm">🏢</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition duration-150">Facility Provisioning</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Register new shelter buildings and scale resource capacity benchmarks.</p>
+                <a href="../shelters/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:bg-blue-500 group-hover:text-white transition-all shadow-sm shrink-0">🏢</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition duration-150">Shelter Facilities</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Register new buildings and allocate regional maximum capacity boundaries.</p>
                     </div>
                 </a>
-
-                <a href="../reports/index.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-amber-500 group-hover:text-white transition-all duration-200 shadow-sm">📊</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-amber-600 transition duration-150">System Metrics Engine</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Review cross-hub resource distributions and system audit parameters.</p>
+                <a href="../reports/index.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl group-hover:bg-amber-500 group-hover:text-white transition-all shadow-sm shrink-0">📊</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-amber-600 transition duration-150">System Reports</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Evaluate community donation records and regional shelter data totals.</p>
                     </div>
                 </a>
-
-                <a href="../intake/map.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-500 group-hover:text-white transition-all duration-200 shadow-sm">🗺️</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-purple-600 transition duration-150">GIS Intake Hotspots</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Review advanced PostGIS spatial models and raw geographic geometries.</p>
+                <a href="../intake/map.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-500 group-hover:text-white transition-all shadow-sm shrink-0">🗺️</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-purple-600 transition duration-150">Rescue Map</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Monitor geographical density indicators for incoming rescued strays.</p>
                     </div>
                 </a>
             </div>
         </div>
 
-    <!-- ==================== 2. NEW: SHELTER MANAGER WORKSPACE ==================== -->
     <?php } elseif ($role == "Manager") { ?>
         <div class="space-y-6">
-            <div class="p-4 bg-amber-50/70 rounded-2xl border border-amber-100 text-sm text-amber-800 shadow-sm flex items-center gap-3">
+            <div class="p-4 bg-amber-50 border border-amber-100 rounded-2xl text-sm text-amber-800 shadow-sm flex items-center gap-3">
                 <span class="text-xl">💼</span>
-                <div>
-                    <strong>Shelter Management Control Terminal:</strong> Logged in as chief administrative supervisor for <strong><?php echo $facility_name; ?></strong>. You have authorization to approve adoptions, allocate expenditures, and manage localized resource configurations.
+                <div class="break-words">
+                    <strong>Shelter Management Console:</strong> Authenticated as coordinator for <strong><?php echo htmlspecialchars($facility_name); ?></strong>. Permissions grant the authorization of applications, expense monitoring, and facility setup.
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <a href="../cats/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-500 group-hover:text-white transition-all duration-200 shadow-sm">🐱</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Inventory Inventory</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Audit localized feline details, healthcare classifications, and clinical schedules.</p>
+                <a href="../cats/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl group-hover:bg-sky-500 group-hover:text-white transition-all shadow-sm shrink-0">🐱</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Feline Registry</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Manage local feline profiles, healthcare details, and vaccination lists.</p>
                     </div>
                 </a>
-
-                <a href="../adoption/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-200 shadow-sm">⚖️</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-emerald-600 transition duration-150">Adoption Pipeline</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Verify background applications and issue final matching approvals for your hub.</p>
+                <a href="../adoption/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-sm shrink-0">⚖️</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-emerald-600 transition duration-150">Adoption Desk</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Review screening details and issue final matching case approvals.</p>
                     </div>
                 </a>
-
-                <a href="../reports/index.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-amber-500 group-hover:text-white transition-all duration-200 shadow-sm">📊</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-amber-600 transition duration-150">Decision Analytics</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Monitor clinical spending metrics and cage utilization rates at your location.</p>
+                <a href="../reports/index.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl group-hover:bg-amber-500 group-hover:text-white transition-all shadow-sm shrink-0">📊</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-amber-600 transition duration-150">Management Reports</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Track facility spending records and cage utilization parameters.</p>
                     </div>
                 </a>
-
-                <a href="../intake/map.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-500 group-hover:text-white transition-all duration-200 shadow-sm">🗺️</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-purple-600 transition duration-150">Spatial Clusters</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">View spatial incoming trends surrounding your operational zone.</p>
+                <a href="../intake/map.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:bg-purple-500 group-hover:text-white transition-all shadow-sm shrink-0">🗺️</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-purple-600 transition duration-150">Area Analysis</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Analyze geographic rescue distributions adjacent to the facility.</p>
                     </div>
                 </a>
             </div>
         </div>
 
-    <!-- ==================== 3. OPERATIONAL STAFF WORKSPACE ==================== -->
     <?php } elseif ($role == "Staff") { ?>
         <div class="space-y-6">
-            <div class="p-4 bg-sky-50/50 rounded-2xl border border-sky-100/40 text-sm text-sky-800 shadow-sm flex items-center gap-3">
-                <span class="text-xl">🏃‍♂️</span>
-                <div>
-                    <strong>Ground Operations Console Active:</strong> Stationed at <strong><?php echo $facility_name; ?></strong>. Use the consolidated links below to record intakes, update medical registries, or adjust ongoing cage housing assignments.
+            <div class="p-4 bg-sky-50 rounded-2xl border border-sky-100/50 text-sm text-sky-800 shadow-sm flex items-center gap-3">
+                <span class="text-xl">📋</span>
+                <div class="break-words">
+                    <strong>Shelter Operations Active:</strong> Access active at <strong><?php echo htmlspecialchars($facility_name); ?></strong>. Forms enable the log of rescued strays, administration of medical cases, and update of workflow files.
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <a href="../cats/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-500 group-hover:text-white transition-all duration-200 shadow-sm">📝</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Feline Master List</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Perform daily data entry, track treatment logs, and update status codes.</p>
+                <a href="../cats/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl group-hover:bg-sky-500 group-hover:text-white transition-all shadow-sm shrink-0">📝</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Feline Database</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Perform profile data entry, append healthcare values, and log actions.</p>
                     </div>
                 </a>
-
-                <a href="../adoption/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-200 shadow-sm">📋</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-emerald-500 transition duration-150">Process Workflows</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Screen visitor profiles and update the pipeline status for manager verification.</p>
+                <a href="../adoption/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-sm shrink-0">📋</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-emerald-500 transition duration-150">Pipeline Management</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Filter visitor backgrounds and forward profiles for manager verification.</p>
                     </div>
                 </a>
-
-                <a href="../intake/map.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-500 group-hover:text-white transition-all duration-200 shadow-sm">📍</div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 group-hover:text-purple-600 transition duration-150">Intake GIS Entry</h4>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Plot coordinate structures for newly processed strays.</p>
+                <a href="../intake/map.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:bg-purple-500 group-hover:text-white transition-all shadow-sm shrink-0">📍</div>
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h4 class="font-bold text-slate-800 group-hover:text-purple-600 transition duration-150">Plot Entry</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Log geographic coordinates for newly processed strays.</p>
                     </div>
                 </a>
             </div>
         </div>
 
-    <!-- ==================== 4. REGISTERED ADOPTER / USER WORKSPACE ==================== -->
-    <?php } elseif ($role == "Adopter") { ?>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="../cats/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-500 group-hover:text-white transition-all duration-200 shadow-sm">🐈</div>
-                <div>
-                    <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Browse Available Cats</h4>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Search detailed rescue profiles, view clinical validation histories, and submit requests.</p>
-                </div>
-            </a>
-
-            <a href="../adoption/list.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-200 shadow-sm">📜</div>
-                <div>
-                    <h4 class="font-bold text-slate-800 group-hover:text-emerald-500 transition duration-150">My Application Ledger</h4>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Track the real-time review updates of your pending adoption match requests.</p>
-                </div>
-            </a>
-
-            <a href="../support/index.php" class="bg-white p-6 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
-                <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-4 group-hover:bg-rose-500 group-hover:text-white transition-all duration-200 shadow-sm">💖</div>
-                <div>
-                    <h4 class="font-bold text-slate-800 group-hover:text-rose-600 transition duration-150">Public Support Center</h4>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Sponsor specific felines, review community milestones, and view the supporter wall.</p>
-                </div>
-            </a>
-        </div>
-
-    <!-- ==================== 5. FIXED RESTRUCTURED PUBLIC GUEST PORTAL HERO ==================== -->
     <?php } else { ?>
-        <div class="bg-white border border-sky-100/80 rounded-3xl overflow-hidden shadow-sm grid grid-cols-1 md:grid-cols-12 items-center">
-            
-            <!-- LEFT AREA: ENTERPRISE COPY AND CORE EXPLANATION -->
-            <div class="p-8 md:p-12 md:col-span-7 space-y-6">
-                <div class="space-y-2">
-                    <span class="text-xs font-bold text-sky-600 tracking-widest uppercase bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
-                        Unified Public Sector Portal
-                    </span>
-                    <h3 class="text-3xl font-black text-slate-800 tracking-tight leading-tight">
-                        Streamlining Regional Stray Feline Logistics & Care
-                    </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="../cats/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl group-hover:bg-sky-500 group-hover:text-white transition-all shadow-sm shrink-0">🐱</div>
+                <div class="mt-4 flex flex-col flex-1">
+                    <h4 class="font-bold text-slate-800 group-hover:text-sky-600 transition duration-150">Browse Available Cats</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Look through animal rescue lists, view medical updates, and apply for adoption matching.</p>
                 </div>
-                
-                <p class="text-slate-500 text-sm leading-relaxed">
-                    PawTrack operates as an advanced multi-tenant operational management console across the Johor Bahru region. By blending real-time medical auditing, localized cage capacities, and relational matching parameters, we replace fragmented workflows with a secure data matrix built for modern animal welfare organizations.
-                </p>
-
-                <!-- EXPLANATORY CHECKLIST GRID -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
-                    <div class="flex items-center gap-2">
-                        <span class="text-sky-500">✔</span> Spatial Population Hotspots
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-sky-500">✔</span> Direct DuitNow Wire Channels
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-sky-500">✔</span> Multi-Hub Inventory Oversight
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-sky-500">✔</span> Real-Time Adoption Pipelines
-                    </div>
+            </a>
+            <a href="../adoption/list.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-sm shrink-0">📋</div>
+                <div class="mt-4 flex flex-col flex-1">
+                    <h4 class="font-bold text-slate-800 group-hover:text-emerald-600 transition duration-150">My Applications</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Check evaluation milestones and review status updates regarding submitted matching requests.</p>
                 </div>
-
-                <div class="pt-2 flex flex-wrap gap-4">
-                    <a href="../cats/list.php" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-sm hover:shadow-md">
-                        Browse Active Felines
-                    </a>
-                    <a href="../auth/login.php" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-sm hover:shadow-md">
-                        Authenticate Session
-                    </a>
+            </a>
+            <a href="../donations/add.php" class="bg-white p-6 h-64 rounded-3xl border border-sky-100/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-start group">
+                <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:bg-rose-500 group-hover:text-white transition-all shadow-sm shrink-0">💖</div>
+                <div class="mt-4 flex flex-col flex-1">
+                    <h4 class="font-bold text-slate-800 group-hover:text-rose-600 transition duration-150">Support Local Shelters</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed break-words mt-2">Sponsor local rescue work, provide item checklists, or view community metrics.</p>
                 </div>
-            </div>
-
-            <!-- RIGHT AREA: HIGH-QUALITY KITTEN IMAGE PLACEMENT -->
-            <div class="md:col-span-5 h-64 md:h-full min-h-[380px] bg-sky-50 relative overflow-hidden flex items-center justify-center">
-                <!-- Grid background accent pattern beneath the layout -->
-                <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#0ea5e9_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                
-                <!-- Your Homepage Kitty Image Asset -->
-                <img src="/PawTrack/assets/images/Homepage Kitty.jpg" 
-                     alt="PawTrack Welcome Feline" 
-                     class="w-full h-full object-cover relative z-10 mix-blend-multiply transition duration-500 hover:scale-105"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                     
-                <!-- Fallback card element if local image is unlinked or naming fails -->
-                <div class="hidden absolute inset-0 flex-col items-center justify-center text-6xl text-sky-300">🐈</div>
-            </div>
+            </a>
         </div>
     <?php } ?>
 

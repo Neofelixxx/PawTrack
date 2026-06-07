@@ -6,7 +6,7 @@ include("../config/db.php");
 include("../includes/header.php");
 
 $id = $_GET['id'] ?? null;
-if (!$id) {
+if (!$id || !is_numeric($id)) {
     die("Invalid Cat ID");
 }
 
@@ -23,9 +23,32 @@ if (!$cat) {
     die("Cat not found");
 }
 $role = $_SESSION['role'] ?? null;
+
+/* ==========================================================================
+   CAGE ECOSYSTEM DATA PREPARATION
+   ========================================================================== */
+// Retrieve current live cage placement data parameters
+$location_stmt = pg_query_params($conn, "
+    SELECT cg.CageNumber, cg.Section 
+    FROM Cage_Assignment ca
+    JOIN Cage cg ON ca.CageID = cg.CageID
+    WHERE ca.CatID = $1 AND ca.EndDate IS NULL", 
+    [$id]
+);
+$current_placement = pg_fetch_assoc($location_stmt);
+
+// Retrieve complete movement history timeline logs for this cat profile
+$cat_history = pg_query_params($conn, "
+    SELECT ca.*, cg.CageNumber, cg.Section, (ca.EndDate - ca.StartDate) AS days_spent
+    FROM Cage_Assignment ca
+    JOIN Cage cg ON ca.CageID = cg.CageID
+    WHERE ca.CatID = $1 
+    ORDER BY ca.StartDate DESC", 
+    [$id]
+);
 ?>
 
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-12">
     
     <!-- BACK TO CATALOG LINK -->
     <div class="mb-6">
@@ -52,7 +75,7 @@ $role = $_SESSION['role'] ?? null;
                 </div>
             </div>
 
-            <!-- ACTION ACTION HUB (ADOPTION & SPONSORSHIP) -->
+            <!-- ACTION HUB (ADOPTION & SPONSORSHIP) -->
             <div class="pt-6 border-t border-slate-100 flex flex-wrap gap-4 items-center">
                 <?php if ($cat['status'] == 'Available') { ?>
                     <?php if ($role == "Adopter") { ?>
@@ -70,7 +93,7 @@ $role = $_SESSION['role'] ?? null;
                     </div>
                 <?php } ?>
 
-                <!-- DYNAMIC SPONSORSHIP BUTTON LINK: Routes right to donation form with contextual data parameters -->
+                <!-- DYNAMIC SPONSORSHIP BUTTON LINK -->
                 <a href="/PawTrack/donations/add.php?sponsor_catid=<?php echo $cat['catid']; ?>&shelterid=<?php echo $cat['shelterid']; ?>" 
                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150 text-sm">
                     Sponsor <?php echo htmlspecialchars($cat['name']); ?>
@@ -81,7 +104,7 @@ $role = $_SESSION['role'] ?? null;
         <!-- RIGHT PANEL: PHOTO -->
         <div class="md:col-span-5 h-72 md:h-full min-h-[380px] bg-sky-50 relative overflow-hidden flex items-center justify-center border-t md:border-t-0 md:border-l border-sky-100">
             <?php if ($cat['image']) { ?> 
-                <img src="<?php echo $base_path; ?>assets/images/cats/<?php echo $cat['image']; ?>" 
+                <img src="<?php echo $base_path; ?>assets/images/cats/<?php echo htmlspecialchars($cat['image']); ?>" 
                      class="w-full h-full object-cover" 
                      alt="<?php echo htmlspecialchars($cat['name']); ?>">
             <?php } else { ?>
@@ -93,7 +116,7 @@ $role = $_SESSION['role'] ?? null;
     </div>
 
     <!-- LOWER ROW: METADATA INFORMATION & PERSONALITY REMARKS -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 items-start">
         
         <!-- SPECIFICATION GRID PANELS -->
         <div class="bg-white rounded-3xl border border-sky-100 p-8 shadow-sm lg:col-span-2">
@@ -122,7 +145,6 @@ $role = $_SESSION['role'] ?? null;
                 <div class="space-y-3.5">
                     <div class="flex justify-between items-center border-b border-slate-50 pb-2">
                         <span class="font-bold text-slate-400 uppercase text-[11px] tracking-wider">Eye Color</span>
-                        <!-- Added Eye Color Value Output View Box -->
                         <span class="font-semibold text-slate-800"><?php echo !empty($cat['eye_color']) ? htmlspecialchars($cat['eye_color']) : 'Not Logged'; ?></span>
                     </div>
                     <div class="flex justify-between items-center border-b border-slate-50 pb-2">
@@ -142,7 +164,7 @@ $role = $_SESSION['role'] ?? null;
         </div>
 
         <!-- SPECIAL TALENTS & REMARKS CARD -->
-        <div class="bg-slate-900 text-white rounded-3xl p-8 shadow-md flex flex-col justify-between">
+        <div class="bg-slate-900 text-white rounded-3xl p-8 shadow-md flex flex-col justify-between h-full">
             <div>
                 <div class="flex items-center gap-2 mb-4 text-sky-400">
                     <h3 class="text-sm font-black uppercase tracking-widest">Special Talents & Tricks</h3>
@@ -159,6 +181,56 @@ $role = $_SESSION['role'] ?? null;
             </div>
             <div class="text-[10px] text-slate-500 font-mono mt-4 pt-4 border-t border-white/5">
                 Verified by Shelter Caretaker Node
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTEGRATED INTEGRATION: PHYSICAL CAGE ASSIGNMENT & MOVEMENTS BOARD -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        
+        <!-- CAGE INFRASTRUCTURE HOUSING MONITOR -->
+        <div class="bg-white rounded-3xl p-8 border border-sky-100 shadow-sm lg:col-span-2 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-black text-slate-900 tracking-tight uppercase tracking-wider">Physical Enclosure Assignment</h3>
+                <?php if ($role == "Admin" || $role == "Manager" || $role == "Staff") { ?>
+                    <a href="/PawTrack/cages/assign.php?catid=<?php echo $cat['catid']; ?>" class="bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold px-4 py-2 rounded-xl text-xs border border-sky-100 shadow-sm transition">
+                        Move Cage Location
+                    </a>
+                <?php } ?>
+            </div>
+            
+            <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+                <span class="text-4xl shrink-0">📦</span>
+                <div>
+                    <h4 class="text-base font-black text-slate-900">
+                        <?php echo $current_placement ? "Unit Enclosure Code: " . htmlspecialchars($current_placement['cagenumber']) : "Unassigned / General Ward Housing"; ?>
+                    </h4>
+                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide mt-0.5">Room Section Type: <?php echo htmlspecialchars($current_placement['section'] ?? 'None Allocated'); ?></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIMELINE TIMELINE MOVEMENTS LEDGER -->
+        <div class="bg-white rounded-3xl border border-sky-100 shadow-sm p-6 space-y-4">
+            <div>
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider pb-2 border-b">Internal Movement Logs</h3>
+            </div>
+            <div class="space-y-2.5 max-h-48 overflow-y-auto pr-1 text-xs font-semibold text-slate-600">
+                <?php while ($ch = pg_fetch_assoc($cat_history)) { ?>
+                    <div class="flex justify-between items-start gap-4 border-b pb-2.5 border-slate-100 last:border-b-0 last:pb-0">
+                        <div class="space-y-0.5">
+                            <span class="block text-slate-800">Unit: <b class="text-sky-600 font-mono"><?php echo htmlspecialchars($ch['cagenumber']); ?></b></span>
+                            <span class="block text-[10px] text-slate-400 italic font-medium"><?php echo htmlspecialchars($ch['section']); ?></span>
+                        </div>
+                        <div class="text-right space-y-0.5">
+                            <span class="font-mono text-slate-500 text-[10px] block"><?php echo date("d M Y", strtotime($ch['startdate'])); ?> &rarr; <?php echo $ch['enddate'] ? date("d M Y", strtotime($ch['enddate'])) : 'Present'; ?></span>
+                            <span class="text-[9px] bg-slate-100 border text-slate-600 px-1.5 py-0.5 rounded font-mono block w-max ml-auto"><?php echo $ch['days_spent'] ? htmlspecialchars($ch['days_spent']) . ' Days' : 'Active'; ?></span>
+                        </div>
+                    </div>
+                <?php } if (pg_num_rows($cat_history) === 0) { ?>
+                    <p class="italic text-slate-400 text-xs text-center py-4 font-normal">No movement history documented for this animal entry profile.</p>
+                <?php } ?>
             </div>
         </div>
 

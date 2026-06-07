@@ -44,14 +44,14 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
 
 <div class="max-w-2xl mx-auto px-4 mt-2">
     <div class="mb-6">
-        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Register New Feline</h2>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Register New Cat</h2>
         <p class="text-slate-800 font-semibold text-sm">Add a new rescue case profile to the system management network.</p>
     </div>
 
     <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-3xl border border-sky-100 shadow-sm space-y-5 text-xs font-bold text-slate-500 uppercase tracking-wider">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block mb-1.5">Feline Given Name</label>
+                <label class="block mb-1.5">Cat Given Name</label>
                 <input type="text" name="name" required class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case">
             </div>
             <div>
@@ -76,7 +76,7 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
                 </select>
             </div>
             <div>
-                <label class="block mb-1.5">Gender Sex</label>
+                <label class="block mb-1.5">Gender</label>
                 <select name="gender" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-semibold text-slate-700">
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -114,13 +114,13 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
         </div>
 
         <div>
-            <label class="block mb-1.5">Case History Background Description</label>
+            <label class="block mb-1.5">Background Description</label>
             <textarea name="description" rows="3" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case"></textarea>
         </div>
 
         <!-- NEWLY INJECTED TEXTAREA ELEMENT FOR SPECIAL REMARKS / TRICKS -->
         <div>
-            <label class="block mb-1.5">Special Talents / Behavioral Remarks</label>
+            <label class="block mb-1.5">Special Behavior Remarks</label>
             <textarea name="special_remarks" rows="2" placeholder="List any learned tricks, friendly habits, unique house rules behavior..." class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl focus:outline-none focus:border-sky-400 text-sm font-medium text-slate-800 tracking-normal normal-case"></textarea>
         </div>
 
@@ -131,7 +131,7 @@ $shelters = pg_query($conn, "SELECT shelterid, name FROM Shelter ORDER BY name")
 
         <div class="flex gap-3 pt-2">
             <button type="submit" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-sm">
-                Commit Entry Registry
+                Confirm Registration
             </button>
             <a href="list.php" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3 rounded-xl text-sm transition text-center">
                 Cancel
